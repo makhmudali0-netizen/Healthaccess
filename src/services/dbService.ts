@@ -1,5 +1,6 @@
 import { Facility, Doctor, Appointment, FirstAidArticle, MedicalRecord, FamilyMember, NotificationItem, UserProfile } from '../types';
 import { MOCK_FACILITIES, MOCK_DOCTORS, MOCK_FIRST_AID_ARTICLES, MOCK_APPOINTMENTS, MOCK_MEDICAL_RECORDS, MOCK_FAMILY, DEMO_USER } from '../data/mockData';
+import { supabase, isSupabaseConfigured } from './supabase';
 
 const STORAGE_KEYS = {
   FACILITIES: 'healthaccess_facilities',
@@ -193,5 +194,26 @@ export const dbService = {
     const current = this.getNotifications();
     const updated = current.map(n => ({ ...n, read: true }));
     localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(updated));
+  },
+
+  // Supabase Cloud Sync helper
+  async syncWithSupabase(): Promise<{ success: boolean; isConfigured: boolean }> {
+    if (!isSupabaseConfigured()) {
+      return { success: false, isConfigured: false };
+    }
+
+    try {
+      const appointments = this.getAppointments();
+      const emr = this.getMedicalRecords();
+
+      // Upsert appointments and EMR to Supabase tables if configured
+      await supabase.from('appointments').upsert(appointments);
+      await supabase.from('medical_records').upsert(emr);
+
+      return { success: true, isConfigured: true };
+    } catch (err) {
+      console.warn("Supabase sync warning:", err);
+      return { success: false, isConfigured: true };
+    }
   }
 };
