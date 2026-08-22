@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html.dark, html.dark body {
+    color-scheme: dark;
+    background-color: #000000 !important;
+    color: #f5f5f5 !important;
+  }
+  
+  html.light {
+    color-scheme: light;
+    background-color: #f8fafc;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Force pure black surfaces in dark mode */
+  .dark .bg-slate-900,
+  .dark .bg-slate-950 {
+    background-color: #000000 !important;
+  }
+
+  .dark .bg-slate-800 {
+    background-color: #0d0d0d !important;
+  }
+
+  .dark .border-slate-800,
+  .dark .border-slate-700 {
+    border-color: #222222 !important;
+  }
+}
+
+@keyframes pulseSlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.04); }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 3s infinite ease-in-out;
+}
