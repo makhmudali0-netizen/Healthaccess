@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { dbService } from '../../services/dbService';
-import { UZBEKISTAN_REGIONS } from '../../data/mockData';
+import { UZBEKISTAN_REGIONS, UZBEKISTAN_DISTRICTS_MAP } from '../../data/mockData';
 import { Facility, FacilityType } from '../../types';
 import {
   Building2,
@@ -28,6 +28,7 @@ export const FacilityDirectory: React.FC<FacilityDirectoryProps> = ({
   const [facilities, setFacilities] = useState<Facility[]>(() => dbService.getFacilities());
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('all');
+  const [selectedDistrict, setSelectedDistrict] = useState('all');
   const [selectedType, setSelectedType] = useState<FacilityType | 'all'>('all');
   const [onlyEmergency, setOnlyEmergency] = useState(false);
   const [activeDetailFacility, setActiveDetailFacility] = useState<Facility | null>(null);
@@ -36,6 +37,7 @@ export const FacilityDirectory: React.FC<FacilityDirectoryProps> = ({
 
   const filteredFacilities = facilities.filter(fac => {
     if (selectedRegion !== 'all' && fac.region !== selectedRegion) return false;
+    if (selectedDistrict !== 'all' && fac.district !== selectedDistrict) return false;
     if (selectedType !== 'all' && fac.type !== selectedType) return false;
     if (onlyEmergency && !fac.emergency24_7) return false;
     if (lowerQuery) {
@@ -46,6 +48,8 @@ export const FacilityDirectory: React.FC<FacilityDirectoryProps> = ({
     }
     return true;
   });
+
+  const availableDistricts = selectedRegion !== 'all' ? (UZBEKISTAN_DISTRICTS_MAP[selectedRegion] || []) : [];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -80,18 +84,39 @@ export const FacilityDirectory: React.FC<FacilityDirectoryProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
           
           {/* Region filter */}
-          <div className="flex items-center space-x-2">
-            <span className="font-semibold text-slate-500">{t('facilities.filterByRegion')}:</span>
-            <select
-              value={selectedRegion}
-              onChange={e => setSelectedRegion(e.target.value)}
-              className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
-            >
-              <option value="all">Barcha viloyatlar</option>
-              {UZBEKISTAN_REGIONS.map(reg => (
-                <option key={reg} value={reg}>{reg}</option>
-              ))}
-            </select>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center space-x-2">
+              <span className="font-semibold text-slate-500">{t('facilities.filterByRegion')}:</span>
+              <select
+                value={selectedRegion}
+                onChange={e => {
+                  setSelectedRegion(e.target.value);
+                  setSelectedDistrict('all');
+                }}
+                className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
+              >
+                <option value="all">Barcha viloyatlar</option>
+                {UZBEKISTAN_REGIONS.map(reg => (
+                  <option key={reg} value={reg}>{reg}</option>
+                ))}
+              </select>
+            </div>
+
+            {selectedRegion !== 'all' && (
+              <div className="flex items-center space-x-2">
+                <span className="font-semibold text-slate-500">Tuman:</span>
+                <select
+                  value={selectedDistrict}
+                  onChange={e => setSelectedDistrict(e.target.value)}
+                  className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none"
+                >
+                  <option value="all">Barcha tumanlar</option>
+                  {availableDistricts.map(dist => (
+                    <option key={dist} value={dist}>{dist}</option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           {/* Type filter buttons */}

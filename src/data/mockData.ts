@@ -17,6 +17,134 @@ export const UZBEKISTAN_REGIONS = [
   "Qoraqalpog'iston Respublikasi"
 ];
 
+export const UZBEKISTAN_DISTRICTS_MAP: Record<string, string[]> = {
+  "Toshkent shahri": [
+    "Yunusobod tumani",
+    "Chilonzor tumani",
+    "Mirzo Ulug'bek tumani",
+    "Mirobod tumani",
+    "Yakkasaroy tumani",
+    "Shayxontohur tumani",
+    "Olmazor tumani",
+    "Sergeli tumani",
+    "Yangihayot tumani",
+    "Uchtepa tumani",
+    "Bektemir tumani"
+  ],
+  "Toshkent viloyati": [
+    "Chirchiq shahri",
+    "Angren shahri",
+    "Olmaliq shahri",
+    "Bekobod shahri",
+    "Qibray tumani",
+    "Zangiota tumani",
+    "Yangiyo'l tumani",
+    "Parkent tumani",
+    "Burchmulla tumani"
+  ],
+  "Samarqand viloyati": [
+    "Samarqand shahri",
+    "Kattaqo'rg'on shahri",
+    "Pastdarg'om tumani",
+    "Urgut tumani",
+    "Bulung'ur tumani",
+    "Payariq tumani",
+    "Jomboy tumani"
+  ],
+  "Buxoro viloyati": [
+    "Buxoro shahri",
+    "Kogon shahri",
+    "G'ijduvon tumani",
+    "Vobkent tumani",
+    "Romitan tumani",
+    "Jondor tumani"
+  ],
+  "Farg'ona viloyati": [
+    "Farg'ona shahri",
+    "Qo'qon shahri",
+    "Marg'ilon shahri",
+    "Quvasoy shahri",
+    "Rishton tumani",
+    "Oltiariq tumani"
+  ],
+  "Andijon viloyati": [
+    "Andijon shahri",
+    "Xonobod shahri",
+    "Asaka tumani",
+    "Shahrixon tumani",
+    "Paxtaobod tumani"
+  ],
+  "Namangan viloyati": [
+    "Namangan shahri",
+    "Kosonsoy tumani",
+    "Chust tumani",
+    "Pop tumani",
+    "To'raqo'rg'on tumani"
+  ],
+  "Qashqadaryo viloyati": [
+    "Qarshi shahri",
+    "Shahrisabz shahri",
+    "G'uzor tumani",
+    "Koson tumani",
+    "Kitob tumani"
+  ],
+  "Surxondaryo viloyati": [
+    "Termiz shahri",
+    "Denov tumani",
+    "Sherobod tumani",
+    "Jarqo'rg'on tumani"
+  ],
+  "Xorazm viloyati": [
+    "Urganch shahri",
+    "Xiva shahri",
+    "Xonqa tumani",
+    "Gurlan tumani",
+    "Shovot tumani"
+  ],
+  "Navoiy viloyati": [
+    "Navoiy shahri",
+    "Zarafshon shahri",
+    "Karmana tumani",
+    "Qiziltepa tumani"
+  ],
+  "Jizzax viloyati": [
+    "Jizzax shahri",
+    "Zomin tumani",
+    "G'allaorol tumani",
+    "Sharof Rashidov tumani"
+  ],
+  "Sirdaryo viloyati": [
+    "Guliston shahri",
+    "Shirin shahri",
+    "Yangiyer shahri",
+    "Boyovut tumani"
+  ],
+  "Qoraqalpog'iston Respublikasi": [
+    "Nukus shahri",
+    "Xo'jayli tumani",
+    "Qo'ng'irot tumani",
+    "To'rtko'l tumani",
+    "Beruniy tumani"
+  ]
+};
+
+export const REGION_COORDINATES: Record<string, { lat: number; lng: number }> = {
+  "Toshkent shahri": { lat: 41.2995, lng: 69.2401 },
+  "Toshkent viloyati": { lat: 41.1685, lng: 69.8398 },
+  "Samarqand viloyati": { lat: 39.6542, lng: 66.9597 },
+  "Buxoro viloyati": { lat: 39.7747, lng: 64.4286 },
+  "Farg'ona viloyati": { lat: 40.3842, lng: 71.7843 },
+  "Andijon viloyati": { lat: 40.7821, lng: 72.3442 },
+  "Namangan viloyati": { lat: 40.9983, lng: 71.6726 },
+  "Qashqadaryo viloyati": { lat: 38.8606, lng: 65.7891 },
+  "Surxondaryo viloyati": { lat: 37.2242, lng: 67.2783 },
+  "Xorazm viloyati": { lat: 41.5503, lng: 60.6317 },
+  "Navoiy viloyati": { lat: 40.0844, lng: 65.3792 },
+  "Jizzax viloyati": { lat: 40.1158, lng: 67.8422 },
+  "Sirdaryo viloyati": { lat: 40.4897, lng: 68.7842 },
+  "Qoraqalpog'iston Respublikasi": { lat: 42.4619, lng: 59.6166 }
+};
+
 export const DEMO_USER: UserProfile = {
   id: "usr-001",
   email: "jasur.bek@healthaccess.uz",
