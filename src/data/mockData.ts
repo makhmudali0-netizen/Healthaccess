@@ -328,42 +328,33 @@ export const MOCK_FIRST_AID_ARTICLES: FirstAidArticle[] = [
       uz: [
         "Bemorga tinch va qulay yotish holatini bering.",
         "Xona haroratidagi toza suvdan oz-ozdan ichiring.",
-        "Og'riq nuqtasini sekin silash orqali ko'rikdan o'tkazing.",
-        "Agar og'riq 2 soatdan ortiq davom etsa, darhol shifokorga murojaat qiling."
+        "Og'riq 2 soatdan ortiq davom etsa, darhol shifokorga murojaat qiling."
       ],
       ru: [
-        "Обеспечьте больному покой и удобное горизонтальное положение.",
-        "Давайте пить чистую воду комнатной температуры небольшими глотками.",
+        "Обеспечьте больному покой и удобное положение.",
+        "Давайте пить чистую воду комнатной температуры.",
         "Если боль длится более 2 часов, обязательно обратитесь к врачу."
       ]
     },
     whatNotToDo: {
       uz: [
-        "Qoringa issiq grelka yoki issiq kompress QO'YMANg (appenditsit bo'lsa yorilib ketishi mumkin!).",
-        "Shifokor ko'rigisiz o'tkir og'riq qoldiruvchi dorilar (Analgin, Nimesil va h.k.) ICHMANG.",
+        "Qoringa issiq grelka QO'YMANG (appenditsit yorilishi xavfi!).",
+        "O'tkir og'riq qoldiruvchi dorilar (Analgin, Nimesil va h.k.) ICHMANG.",
         "Qattiq ovqat yemang va huqna (klima) qilmang."
       ],
       ru: [
-        "НЕ прикладывайте горячую грелку к животу (опасно при аппендиците!).",
-        "НЕ принимайте сильные обезболивающие до осмотра врача (это скрывает симптомы).",
-        "НЕ принимайте твердую пищу и не делайте клизму."
+        "НЕ прикладывайте грелку к животу (опасно при аппендиците!).",
+        "НЕ принимайте сильные обезболивающие до осмотра врача.",
+        "НЕ принимайте твердую пищу."
       ]
     },
     whenToSeekHelp: {
-      uz: [
-        "Og'riq o'ng tomonga ko'chganda (Appenditsit xavfi)",
-        "Qusish va yuqori isitma paydo bo'lganda",
-        "Qorin mushaklari taxtadek qattiqlashganda"
-      ],
-      ru: [
-        "Боль сместилась в правый бок (риск аппендицита)",
-        "Появилась рвота и высокая температура",
-        "Живот стал твердым как доска"
-      ]
+      uz: ["Og'riq o'ng tomonga ko'chganda (Appenditsit)", "Qusish va yuqori isitma paydo bo'lganda"],
+      ru: ["Боль сместилась в правый бок", "Появилась рвота и температура"]
     },
     emergencyWarningSigns: {
-      uz: ["Hushdan ketish", "Qonli qusish", "Chidabsiz to'satdan shiddatli og'riq (Darhol 103 chaqiring!)"],
-      ru: ["Потеря сознания", "Кровавая рвота", "Внезапная невыносимая боль (Срочно 103!)"]
+      uz: ["Hushdan ketish", "Qonli qusish", "Chidabsiz shiddatli og'riq (103 chaqiring)"],
+      ru: ["Потеря сознания", "Кровавая рвота", "Невыносимая боль (Срочно 103)"]
     },
     severity: "high",
     icon: "Activity"
@@ -374,7 +365,7 @@ export const MOCK_FIRST_AID_ARTICLES: FirstAidArticle[] = [
       uz: "Kichik kuydirish (Termik va maishiy)",
       ru: "Бытовые и термические ожоги"
     },
-    category: "Travma va jarahotlar",
+    category: "Travma va jarohatlar",
     symptoms: {
       uz: ["Teri qizarishi", "Pufakchalar paydo bo'lishi", "Achishish og'rig'i"],
       ru: ["Покраснение кожи", "Появление пузырей", "Жгучая боль"]
@@ -386,36 +377,30 @@ export const MOCK_FIRST_AID_ARTICLES: FirstAidArticle[] = [
         "Toza va quruq steril bint bilan yengil yoping."
       ],
       ru: [
-        "Немедленно охлаждайте место ожога под проточной холодной водой 15-20 минут.",
-        "Нанесите Пантенол или специальный аэрозоль от ожогов.",
+        "Охлаждайте место ожога под проточной водой 15-20 минут.",
+        "Нанесите Пантенол или специальный аэрозоль.",
         "Накройте чистой стерильной салфеткой."
       ]
     },
     whatNotToDo: {
       uz: [
-        "Kuydirilgan joyga mol yog'i, yog'li krem yoki tish pastasi SURTMANG!",
-        "Hosil bo'lgan pufakchalarni QAPSHAMANG va YORMANg.",
-        "Yaraga muzni to'g'ridan-to'g'ri bosmang (muzlash travmasi bo'ladi)."
+        "Yog', mol yog'i yoki tish pastasi SURTMANG!",
+        "Hosil bo'lgan pufakchalarni YORMANg.",
+        "Yaraga muzni to'g'ridan-to'g'ri bosmang."
       ],
       ru: [
-        "НЕ мажьте ожог жиром, масло, зубной пастой или сметаной!",
-        "НЕ вскрывайте и не прокалывайте образовавшиеся пузыри.",
-        "НЕ прикладывайте лед напрямую к ране."
+        "НЕ мажьте ожог жиром, пастой или сметаной!",
+        "НЕ вскрывайте образовавшиеся пузыри.",
+        "НЕ прикладывайте лед напрямую."
       ]
     },
     whenToSeekHelp: {
-      uz: [
-        "Kuydirish maydoni kaft hajmida katta bo'lsa",
-        "Yuz, ko'z yoki bo'yin sohasida bo me'yoridan ortiq bo'lsa"
-      ],
-      ru: [
-        "Площадь ожога больше ладони",
-        "Ожог на лице, шее или в области глаз"
-      ]
+      uz: ["Kuydirish maydoni kaft hajmida katta bo'lsa", "Yuz va bo'yin sohasida bo'lsa"],
+      ru: ["Площадь ожога больше ладони", "Ожог на лице или шее"]
     },
     emergencyWarningSigns: {
-      uz: ["Kimyoviy kuydirish", "Bolalarda ko'krak qafasi kuydirilishi (103 chaqiring)"],
-      ru: ["Химический ожог", "Ожог грудной клетки у ребенка (Звоните 103)"]
+      uz: ["Kimyoviy kuydirish", "Bolalarda ko'krak qafasi kuydirilishi (103)"],
+      ru: ["Химический ожог", "Ожог груди у ребенка (103)"]
     },
     severity: "medium",
     icon: "Flame"
@@ -434,35 +419,519 @@ export const MOCK_FIRST_AID_ARTICLES: FirstAidArticle[] = [
     whatToDo: {
       uz: [
         "Kallani birmuncha OLINGA egib o'tiring.",
-        "Burun qanotlarini 10 daqiqa davomida barmoqlar bilan qisib turing.",
-        "Ensa va burun ustiga sovuq mato yoki muz solingan xaltacha qo'ying."
+        "Burun qanotlarini 10 daqiqa barmoq bilan qisib turing.",
+        "Ensa va burun ustiga sovuq mato yoki muz qo'ying."
       ],
       ru: [
-        "Сядьте, слегка наклонив голову ВПЕРЕД.",
+        "Сядьте, наклонив голову слегка ВПЕРЕД.",
         "Зажмите крылья носа пальцами на 10 минут.",
-        "Приложите холодный компресс на переносицу и затылок."
+        "Приложите холодный компресс на переносицу."
       ]
     },
     whatNotToDo: {
       uz: [
-        "Kallani ORQAGA tashlamang (qon oshqozon yoki nafas yo'liga ketadi!).",
+        "Kallani ORQAGA tashlamang (qon oshqozonga ketadi!).",
         "Yotib olmang."
       ],
       ru: [
-        "НЕ запрокидывайте голову НАЗАД (кровь попадет в пищевод или дыхательные пути!).",
+        "НЕ запрокидывайте голову НАЗАД!",
         "НЕ принимайте горизонтальное положение."
       ]
     },
     whenToSeekHelp: {
       uz: ["Qon ketishi 20 daqiqadan ortiq to'xtamasa", "Bosh jarohatidan keyin boshlansa"],
-      ru: ["Кровотечение не останавливается более 20 минут", "Возникло после травмы головы"]
+      ru: ["Кровотечение длится более 20 минут", "После травмы головы"]
     },
     emergencyWarningSigns: {
       uz: ["Kuchli holsizlik va hush yoqolishi (103 chaqiring)"],
-      ru: ["Сильная слабость и потеря сознания (Звоните 103)"]
+      ru: ["Сильная слабость и потеря сознания (103)"]
     },
     severity: "medium",
     icon: "Droplet"
+  },
+  {
+    id: "fa-4",
+    title: {
+      uz: "Yurak xuruji va ko'krakdagi o'tkir og'riq",
+      ru: "Инфаркт миокарда и боль в груди"
+    },
+    category: "Yurak va qon tomir",
+    symptoms: {
+      uz: ["Ko'krak ortida bosuvchi, kuydiruvchi o'tkir og'riq", "Og'riq chap qo'l, bo'yin va jag'ga berilishi", "Muzday sovuq ter bosishi va nafas qisishi"],
+      ru: ["Давящая боль за грудиной", "Отдача боли в левую руку, шею и челюсть", "Холодный пот и одышка"]
+    },
+    whatToDo: {
+      uz: [
+        "DARHOL 103 ga qo'ng'iroq qiling!",
+        "Bemorga yarim o'tirgan holat bering, tugmalarni yechib erkin nafas oldiring.",
+        "Tilda erish uchun 1 tabletka Nitroglitserin yoki Aspirin bering (tavsiya bo'lsa)."
+      ],
+      ru: [
+        "СРОЧНО вызывайте 103!",
+        "Придайте больному полусидячее положение, обеспечьте приток воздуха.",
+        "Дайте таблетку Нитроглицерина или Аспирина (если нет противопоказаний)."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Bemorni yurgizmang va harakatlantirmang.",
+        "Validol bermang (u kuchli xurujda yordam bermaydi)."
+      ],
+      ru: [
+        "НЕ разрешайте больному ходить или физически напрягаться.",
+        "НЕ надейтесь только на Валидол при сильном приступе."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Ko'krak og'rig'i 5 daqiqadan ortiq davom etsa", "Nafas qisishi kuchaysa"],
+      ru: ["Боль в груди длится более 5 минут", "Усиливается одышка"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Hushdan ketish va yurak to'xtashi (Kardio-pulmonar reanimatsiya boshlang!)"],
+      ru: ["Потеря сознания и остановка сердца (Начните СЛР!)"]
+    },
+    severity: "high",
+    icon: "Heart"
+  },
+  {
+    id: "fa-5",
+    title: {
+      uz: "Insult (Bosh miya qon aylanishi buzilishi)",
+      ru: "Инсульт (Острое нарушение мозгового кровообращения)"
+    },
+    category: "Shoshilinch holatlar",
+    symptoms: {
+      uz: ["Yuz qiyshayishi (tabassum qilolmaslik)", "Qo'l yoki oyoq uyushishi va holsizligi", "Nutq buzilishi va tushunarsiz gapirish"],
+      ru: ["Асимметрия лица (кривая улыбка)", "Слабость в руке или ноге", "Нарушение речи"]
+    },
+    whatToDo: {
+      uz: [
+        "DARHOL 103 tez yordam chaqiring (4.5 soat oltin vaqt!).",
+        "Bemorni boshini birmuncha ko'tarib yotqizing.",
+        "Tugmalarini yeching va toza havo kiring."
+      ],
+      ru: [
+        "СРОЧНО вызывайте 103 (Окно помощи 4.5 часа!).",
+        "Уложите больного с приподнятой головой.",
+        "Расстегните тесную одежду."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Dori va suv bermang (yutish refleksi buzilgan bo'lishi mumkin!).",
+        "Boshni pastga osiltirmang."
+      ],
+      ru: [
+        "НЕ давайте питье и лекарства (риск поперхивания!).",
+        "НЕ опускайте голову ниже тела."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Yuz va nutqda kichik bo'lsa ham o'zgarish sezilsa"],
+      ru: ["Любые проявления асимметрии лица или речи"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Hushdan ketish va qusish (103 tez yetib kelishi kerak)"],
+      ru: ["Потеря сознания и рвота (Срочно 103)"]
+    },
+    severity: "high",
+    icon: "Brain"
+  },
+  {
+    id: "fa-6",
+    title: {
+      uz: "Gipertonik kriz (Yuqori qon bosimi)",
+      ru: "Гипертонический криз (Высокое давление)"
+    },
+    category: "Yurak va qon tomir",
+    symptoms: {
+      uz: ["Qon bosimi 140/90 dan yuqori ko'tarilishi", "Bosh ensa qismida kuchli og'riq va aylanish", "Kuz oldida chivinlar va ko'ngil aynishi"],
+      ru: ["Давление выше 140/90 мм рт.ст.", "Сильная боль в затылке", "Мушки перед глазами"]
+    },
+    whatToDo: {
+      uz: [
+        "Bemorni yarim o'tirgan holatda tinchlantiring.",
+        "Shifokor ilgari buyurgan gipotenziv dorini bering (Kaptopril va h.k.).",
+        "Oyoqlarga issiq vanna yoki grelka qo'ying (qon pastga oqadi)."
+      ],
+      ru: [
+        "Усадите пациента в комфортное положение.",
+        "Дайте ранее назначенный врачом препарат от давления.",
+        "Сделайте теплую ножную ванночку."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Qon bosimini to'satdan keskin tushiradigan dori ichirmang.",
+        "Jismoniy harakat qildirmang."
+      ],
+      ru: [
+        "НЕ сбивайте давление слишком резко.",
+        "НЕ допускайте физических нагрузок."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Bosim 180/110 dan yuqori bo'lsa va dori ta'sir qilmasa"],
+      ru: ["Давление выше 180/110 и не снижается"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Ko'krak og'rig'i va ko'rish yoqolishi (103 chaqiring)"],
+      ru: ["Боль в груди и нарушение зрения (103)"]
+    },
+    severity: "high",
+    icon: "Activity"
+  },
+  {
+    id: "fa-7",
+    title: {
+      uz: "Allergiya va Anafilaktik shok",
+      ru: "Аллергия и анафилактический шок"
+    },
+    category: "Shoshilinch holatlar",
+    symptoms: {
+      uz: ["Tana va yuzda shish, toshma paydo bo'lishi", "Tomoq qichishishi va nafas siqilishi", "Qon bosimi tushib ketishi"],
+      ru: ["Отек лица, губ, высыпания", "Удушье и отек горла", "Резкое падение давления"]
+    },
+    whatToDo: {
+      uz: [
+        "Allergen bilan aloqani darhol to'xtating (dori, taom, chaqqan hasharot).",
+        "Darhol antigistamin dori bering (Suprastin, Siterizin).",
+        "Nafas siqilsa 103 chaqiring va epinefrin (adrenalin) auto-inyektor ishlating."
+      ],
+      ru: [
+        "Прекратите контакт с аллергеном.",
+        "Дайте антигистаминное средство (Супрастин, Цетиризин).",
+        "При удушье вызывайте 103 и примените адреналин."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Tomog'i shishgan bemorga qattiq ovqat berib bo'lmaydi.",
+        "Vaqtni o'tkazmang."
+      ],
+      ru: [
+        "НЕ давайте твердую пищу при отеке горла.",
+        "НЕ медлите с вызовом скорой."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Nafas olish qiyinlashganda va ovoz bo'g'ilganda"],
+      ru: ["Трудности с дыханием и осиплость голоса"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Anafilaktik shok va hush yoqolishi (103 chaqiring)"],
+      ru: ["Анафилактический шок (Срочно 103)"]
+    },
+    severity: "high",
+    icon: "ShieldAlert"
+  },
+  {
+    id: "fa-8",
+    title: {
+      uz: "Oziq-ovqat va doridan zaharlanish",
+      ru: "Пищевое и лекарственное отравление"
+    },
+    category: "Zaharlanish",
+    symptoms: {
+      uz: ["Ko'ngil aynishi, qusish va ich ketishi", "Qorinda burab og'rish", "Holsizlik va isitma"],
+      ru: ["Тошнота, рвота, диарея", "Боль и спазмы в животе", "Слабость и температура"]
+    },
+    whatToDo: {
+      uz: [
+        "Oshqozonni yuvish: 1-1.5 litr iliq suv ichirib qushtiring.",
+        "Sorbent dori bering (Aktivlashtirilgan ko'mir, Smekta, Polisorb).",
+        "Regidron yoki tuzli iliq suvdan oz-ozdan tez-tez ichiring (degidratatsiyaga qarshi)."
+      ],
+      ru: [
+        "Промойте желудок теплым раствором воды.",
+        "Дайте сорбенты (Активированный уголь, Смекта, Полисорб).",
+        "Обильное питье растворами типа Регидрон."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Kislota yoki ishqor bilan zaharlanganda qushtirish MUMKIN EMAS!",
+        "Hushsiz bemorni qushtirmang."
+      ],
+      ru: [
+        "НЕ вызывайте рвоту при отравлении кислотами или щелочами!",
+        "НЕ вызывайте рвоту у человека без сознания."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Qusish to'xtamasa va suvsizlanish belgilari bo'lsa"],
+      ru: ["Непрекращающаяся рвота и обезвоживание"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Qonli qusish, qo'ziqorin yoki zaharli kimyoviy moddadan zaharlanish (103)"],
+      ru: ["Кровавая рвота, отравление грибами или химикатами (103)"]
+    },
+    severity: "medium",
+    icon: "AlertTriangle"
+  },
+  {
+    id: "fa-9",
+    title: {
+      uz: "Tutqanoq va Sudorgi (Эпилепсия xuruji)",
+      ru: "Судороги и приступ эпилепсии"
+    },
+    category: "Shoshilinch holatlar",
+    symptoms: {
+      uz: ["To'satdan hushdan ketish va yiqilish", "Butun tanada shiddatli qaltirash va tirishish", "Og'izdan ko'pik kelishi"],
+      ru: ["Внезапная потеря сознания и падение", "Судороги всего тела", "Пена изо рта"]
+    },
+    whatToDo: {
+      uz: [
+        "Bemorni yon tomonga (yonbosh) yotqizing.",
+        "Boshi tagiga yumshoq kiyim yoki yostiqcha qo'ying.",
+        "Xuruj tugashini kuting va vaqtni belgilang (odatda 1-3 daqiqa)."
+      ],
+      ru: [
+        "Поверните человека на бок.",
+        "Положите под голову что-то мягкое.",
+        "Засеките время приступа."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Og'ziga qoshiq, barmoq yoki narsa tiqmang (tishlar va jag' sinadi!).",
+        "Kuch bilan tutib turishga va harakatini to'xtatishga urinmang."
+      ],
+      ru: [
+        "НЕ засовывайте предметы и пальцы в рот!",
+        "НЕ удерживайте силой судороги."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Xuruj 5 daqiqadan ortiq davom etsa", "Homilador ayolda bo'lsa"],
+      ru: ["Приступ длится более 5 минут", "При судорогах у беременной"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Xurujlar ketma-ket qaytarilsa (103 chaqiring)"],
+      ru: ["Повторяющиеся приступы подряд (103)"]
+    },
+    severity: "high",
+    icon: "Brain"
+  },
+  {
+    id: "fa-10",
+    title: {
+      uz: "Issiq o'tishi va quyosh urishi",
+      ru: "Тепловой и солнечный удар"
+    },
+    category: "Shoshilinch holatlar",
+    symptoms: {
+      uz: ["Bosh og'rishi, aylanishi va ko'ngil aynishi", "Tana harorati 39-40°C gacha ko'tarilishi", "Teri qizil, quruq va issiq bo'lishi"],
+      ru: ["Головокружение и тошнота", "Температура тела до 39-40°C", "Сухая горячая кожа"]
+    },
+    whatToDo: {
+      uz: [
+        "Bemorni darhol salqin, soyali va havoli xonaga o'tkazing.",
+        "Peshona, bo'yin va qo'ltiq ostiga nam sovuq kompress qo me'yorida qo'ying.",
+        "Oz-ozdan salqin (muzday emas) namli suv va tuzli ichimlik ichiring."
+      ],
+      ru: [
+        "Перенесите человека в прохладную тень.",
+        "Приложите холодные компрессы на лоб и шею.",
+        "Давайте прохладное питье небольшими глотками."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Bemorni muzday suvli vannaga tashlamang (tomirlar spazmi bo'ladi).",
+        "Spirtli ichimlik bermang."
+      ],
+      ru: [
+        "НЕ погружайте в ледяную воду.",
+        "НЕ давайте алкоголь."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Isitma 39°C dan tushmasa va qusish boshlansa"],
+      ru: ["Температура не снижается и есть рвота"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Hush yo'qotish va gallyutsinatsiya (103 chaqiring)"],
+      ru: ["Потеря сознания (103)"]
+    },
+    severity: "medium",
+    icon: "Sun"
+  },
+  {
+    id: "fa-11",
+    title: {
+      uz: "Ilon, chayon va zaharli hasharot chaqishi",
+      ru: "Укус змеи, скорпиона и ядовитых насекомых"
+    },
+    category: "Zaharlanish",
+    symptoms: {
+      uz: ["Chaqilgan joyda o'tkir og'riq va shish", "Terlash, ko'ngil aynishi va titrash", "Bosh aylanishi va nafas siqilishi"],
+      ru: ["Острая боль и отек в месте укуса", "Тошнота, потливость", "Головокружение"]
+    },
+    whatToDo: {
+      uz: [
+        "DARHOL 103 ga murojaat qiling va harakatni to'xtating.",
+        "Chaqilgan a'zoni harakatsizlantiring (shina bog'lang).",
+        "Ko'p miqdorda toza suv ichiring (zaharni yuvish uchun).",
+        "Antigistamin dori bering."
+      ],
+      ru: [
+        "СРОЧНО вызывайте 103 и обездвижьте конечность.",
+        "Наложите фиксирующую повязку.",
+        "Обильное питье воды.",
+        "Дайте антигистаминный препарат."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Yarani kesmang, kuydirmang va og'iz bilan so'rmang!",
+        "Jgut (jart) bilan mahkam siqib bog'lamang (to'qima o'ladi!).",
+        "Spirtli ichimlik ichirmang."
+      ],
+      ru: [
+        "НЕ надрезайте, НЕ прижигайте и НЕ отсасывайте яд!",
+        "НЕ накладывайте тугой жгут!",
+        "НЕ давайте алкоголь."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Zaharli ilon va chayon chaqqanda har doim 103 chaqiriladi"],
+      ru: ["При укусе ядовитой змеи всегда вызывайте 103"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Nafas siqilishi va tomoq shishi (103 tez yetib kelishi kerak)"],
+      ru: ["Удушье и отек гортани (103)"]
+    },
+    severity: "high",
+    icon: "ShieldAlert"
+  },
+  {
+    id: "fa-12",
+    title: {
+      uz: "Suyak sinishi va bo'g'im chiqishi",
+      ru: "Перелом костей и вывихи"
+    },
+    category: "Travma va jarohatlar",
+    symptoms: {
+      uz: ["Qattiq og'riq va a'zoning g'alati qiyshayishi", "Shish va ko'karish", "Harakatlantirib bo'lmaslik"],
+      ru: ["Сильная боль и деформация конечности", "Отек и синяк", "Невозможность движения"]
+    },
+    whatToDo: {
+      uz: [
+        "A'zoni to'liq harakatsizlantiring (taxta yoki karton bilan shina bog'lang).",
+        "Jarohat ustiga matoga o'ralgan muz qo'ying.",
+        "Ochiq sinish bo'lsa, yara ustiga steril bint yoping va qonni to'xtating."
+      ],
+      ru: [
+        "Обездвижьте конечность импровизированной шиной.",
+        "Приложите лед через ткань.",
+        "При открытом переломе наложите стерильную повязку."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Sinigan suyakni yoki chiqqan bo'g'imni O'ZINGIZ TO'G'RILASHGA URINMANG!",
+        "Bemorga kuchli harakat qildirmang."
+      ],
+      ru: [
+        "НЕ пытайтесь вправлять кость или вывих самостоятельно!",
+        "НЕ заставляйте двигаться."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Ochiq sinish va kuchli og'riqda травматологияga olib boriladi"],
+      ru: ["Открытые переломы и сильная боль"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Bosh yoki umurtqa pog'onasi sinishi (Bemorni joyidan qimirlatmang! 103 chaqiring)"],
+      ru: ["Травма позвоночника (Не двигать! 103)"]
+    },
+    severity: "high",
+    icon: "Activity"
+  },
+  {
+    id: "fa-13",
+    title: {
+      uz: "Nafas yo'liga narsa tiqilishi (Geymlix usuli)",
+      ru: "Поперхивание и непроходимость дыхательных путей"
+    },
+    category: "Shoshilinch holatlar",
+    symptoms: {
+      uz: ["Gapira olmaslik va nafas ololmaslik", "Tomoqni ushlab ko'karish", "Yo'talolmaslik"],
+      ru: ["Невозможность говорить и дышать", "Посинение лица", "Отсутствие кашля"]
+    },
+    whatToDo: {
+      uz: [
+        "Bemorni orqa tomonidan quchoqlang.",
+        "Mushtingizni qorin yuqori qismiga (kindik va ko'krak orasiga) qo'ying.",
+        "Ikkinchi qo'lingiz bilan mushtni tutib, tez va shiddat bilan ICHKARIga va YUQORIga bosing (Geymlix usuli)."
+      ],
+      ru: [
+        "Встаньте сзади больного и обхватите руками.",
+        "Положите кулак на верх живота.",
+        "Резко надавите ВНУТРЬ и ВВЕРХ (прием Геймлиха)."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Tik turgan bemorning orqasiga gurillatib urib bo'lmaydi (narsa yanada chukurroq ketadi!)."
+      ],
+      ru: [
+        "НЕ бейте стоящего человека по спине (предмет уходит глубже!)."
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Tiqilgan narsa chiqmasa, darhol 103 va Geymlix usulini takrorlang"],
+      ru: ["Если предмет не выходит, продолжайте прием и звоните 103"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Hush yo'qotilsa (Bemorni yerga yotqizib yordam bering)"],
+      ru: ["Потеря сознания (Уложите на пол)"]
+    },
+    severity: "high",
+    icon: "ShieldAlert"
+  },
+  {
+    id: "fa-14",
+    title: {
+      uz: "Is gazidan zaharlanish (СО)",
+      ru: "Отравление угарным газом"
+    },
+    category: "Zaharlanish",
+    symptoms: {
+      uz: ["Bosh shaqillab og'rishi va aylanishi", "Ko'ngil aynishi, qusish va holsizlik", "Quloqlarda shang'illash va hush yo'qolishi"],
+      ru: ["Стучащая головная боль", "Тошнота и слабость", "Шум в ушах и потеря сознания"]
+    },
+    whatToDo: {
+      uz: [
+        "DARHOL bemorni toza havoga (tashqariga) olib chiqing!",
+        "103 tez yordam va 104 gaz xizmatiga qo'ng'iroq qiling.",
+        "Eshik va derazalarni lahang oching, bemorga erkin nafas berish uchun kiyimlarini yeching."
+      ],
+      ru: [
+        "СРОЧНО вынесите пострадавшего на свежий воздух!",
+        "Звоните 103 и 104.",
+        "Откройте окна и расстегните одежду."
+      ]
+    },
+    whatNotToDo: {
+      uz: [
+        "Gaz hidlanayotgan xonada sirg'alib gugurt va elektr yoqmang (portlash bo'lishi mumkin!)."
+      ],
+      ru: [
+        "НЕ включайте свет и НЕ зажигайте огонь!"
+      ]
+    },
+    whenToSeekHelp: {
+      uz: ["Is gazi gumon qilingan har bir holatda shifokor ko'rishi shart"],
+      ru: ["Обязателен осмотр врача при любом отравлении СО"]
+    },
+    emergencyWarningSigns: {
+      uz: ["Hushsiz holat va sudorgi (103 va sun'iy nafas)"],
+      ru: ["Потеря сознания (103 и ИВЛ)"]
+    },
+    severity: "high",
+    icon: "AlertTriangle"
   }
 ];
 

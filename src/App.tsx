@@ -36,6 +36,32 @@ const MainAppContent: React.FC = () => {
   const [selectedBookingFacility, setSelectedBookingFacility] = useState<Facility | null>(null);
   const [showSplash, setShowSplash] = useState<boolean>(true);
 
+  // Mobile & Browser Back Button Navigation Handler
+  const changeTab = (tab: string) => {
+    if (tab !== activeTab) {
+      window.history.pushState({ tab }, '', `#${tab}`);
+      setActiveTab(tab);
+    }
+  };
+
+  React.useEffect(() => {
+    // Set initial state
+    window.history.replaceState({ tab: 'home' }, '', '#home');
+
+    const handlePopState = (e: PopStateEvent) => {
+      if (e.state && e.state.tab) {
+        setActiveTab(e.state.tab);
+      } else {
+        if (activeTab !== 'home') {
+          setActiveTab('home');
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [activeTab]);
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 transition-colors pb-16 lg:pb-0">
       
@@ -49,20 +75,20 @@ const MainAppContent: React.FC = () => {
       <SMSToast />
 
       {/* Header Navigation */}
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Header activeTab={activeTab} setActiveTab={changeTab} />
 
       {/* Main View Router */}
       <main className="flex-1">
         {activeTab === 'home' && (
           <div>
             <Hero
-              setActiveTab={setActiveTab}
+              setActiveTab={changeTab}
               onSearchSubmit={q => {
-                setActiveTab('facilities');
+                changeTab('facilities');
               }}
             />
-            <MyHealthWidget setActiveTab={setActiveTab} />
-            <NearbyMapPreview setActiveTab={setActiveTab} />
+            <MyHealthWidget setActiveTab={changeTab} />
+            <NearbyMapPreview setActiveTab={changeTab} />
           </div>
         )}
 
@@ -70,7 +96,7 @@ const MainAppContent: React.FC = () => {
           <FacilityDirectory
             onSelectFacilityForAppointment={fac => {
               setSelectedBookingFacility(fac);
-              setActiveTab('appointments');
+              changeTab('appointments');
             }}
           />
         )}
@@ -78,7 +104,7 @@ const MainAppContent: React.FC = () => {
         {activeTab === 'map' && (
           <InteractiveMap
             onBookAppointment={facId => {
-              setActiveTab('appointments');
+              changeTab('appointments');
             }}
           />
         )}
@@ -92,7 +118,7 @@ const MainAppContent: React.FC = () => {
         )}
 
         {activeTab === 'ai' && (
-          <HealthAIChat onNavigateToTab={tab => setActiveTab(tab)} />
+          <HealthAIChat onNavigateToTab={tab => changeTab(tab)} />
         )}
 
         {activeTab === 'doctorChat' && (
@@ -184,7 +210,7 @@ const MainAppContent: React.FC = () => {
       </footer>
 
       {/* Mobile Bottom Navigation */}
-      <MobileNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <MobileNav activeTab={activeTab} setActiveTab={changeTab} />
     </div>
   );
 };
