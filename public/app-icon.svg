@@ -1,5 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="128" fill="#0d9488" />
-  <path d="M256 390c-9 0-18-4-24-11l-98-106c-27-29-37-69-26-107 15-52 69-86 123-76 25 5 48 18 64 36 16-18 39-31 64-36 54-10 108 24 123 76 11 38 1 78-26 107l-98 106c-6 7-15 11-24 11z" fill="#ffffff" />
-  <path d="M 160 256 L 210 256 L 235 200 L 265 310 L 295 230 L 320 256 L 352 256" fill="none" stroke="#0d9488" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Rounded Squircle / Pill Container Teal #0d9488 -->
+  <rect x="32" y="32" width="448" height="448" rx="140" fill="#0d9488" />
+  
+  <!-- Thick Heart Outline -->
+  <path d="M 256,410 C 235,390 120,290 120,200 C 120,140 165,100 220,100 C 245,100 256,115 256,115 C 256,115 267,100 292,100 C 347,100 392,140 392,200 C 392,290 277,390 256,410 Z" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="32" 
+        stroke-linejoin="round" 
+        stroke-linecap="round" />
+
+  <!-- ECG Pulse line cutting through the heart center -->
+  <path d="M 120,245 L 195,245 L 225,185 L 255,305 L 285,215 L 315,245 L 392,245" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="28" 
+        stroke-linejoin="round" 
+        stroke-linecap="round" />
 </svg>
