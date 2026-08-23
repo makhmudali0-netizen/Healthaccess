@@ -16,7 +16,8 @@ export const ru = {
     admin: "Админ панель",
     doctorChat: "Чат с врачом",
     firstAid: "Первая помощь",
-    vaccinations: "Календарь прививок"
+    vaccinations: "Календарь прививок",
+    bp: "Давление"
   },
   
   // Hero & Homepage

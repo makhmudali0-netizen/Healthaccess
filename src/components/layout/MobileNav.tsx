@@ -12,8 +12,8 @@ export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, setActiveTab })
 
   const tabs = [
     { id: 'home', label: t('nav.home'), icon: HeartPulse },
+    { id: 'bp', label: t('nav.bp'), icon: HeartPulse },
     { id: 'facilities', label: t('nav.search'), icon: Search },
-    { id: 'map', label: t('nav.map'), icon: MapPin },
     { id: 'emr', label: 'Health', icon: FileText },
     { id: 'profile', label: t('nav.profile'), icon: User }
   ];

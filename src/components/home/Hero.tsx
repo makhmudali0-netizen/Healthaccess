@@ -11,7 +11,8 @@ import {
   Bot,
   ArrowRight,
   ShieldCheck,
-  Zap
+  Zap,
+  HeartPulse
 } from 'lucide-react';
 
 interface HeroProps {
@@ -31,6 +32,13 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit }) => {
   };
 
   const quickActions = [
+    {
+      id: 'bp',
+      title: 'Qon Bosimi Monitori',
+      icon: HeartPulse,
+      color: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-900',
+      badge: 'Smart PPG'
+    },
     {
       id: 'firstAid',
       title: t('actions.firstAid'),

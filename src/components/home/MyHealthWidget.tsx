@@ -159,41 +159,49 @@ export const MyHealthWidget: React.FC<MyHealthWidgetProps> = ({ setActiveTab }) 
             </button>
           </div>
 
-          {/* Card 4: Recent Test Result */}
+          {/* Card 4: Blood Pressure Monitor */}
           <div className="bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/80 hover:shadow-md transition flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider flex items-center">
-                  <CheckCircle2 className="w-4 h-4 mr-1 text-emerald-600" /> {t('myHealth.recentTestResult')}
+                <span className="text-xs font-bold text-red-700 dark:text-red-300 uppercase tracking-wider flex items-center">
+                  <Activity className="w-4 h-4 mr-1 text-red-600" /> Qon Bosimi Monitori
                 </span>
-                <span className="text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 px-2 py-0.5 rounded-full">
-                  Norma
+                <span className="text-[10px] font-semibold bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-200 px-2 py-0.5 rounded-full animate-pulse">
+                  Smart PPG
                 </span>
               </div>
 
-              <div>
-                <h4 className="font-bold text-sm text-slate-900 dark:text-white">
-                  Xolesterin umumiy tahlili
-                </h4>
-                <div className="mt-2 flex items-baseline space-x-2">
-                  <span className="text-lg font-extrabold text-emerald-600 dark:text-emerald-400">
-                    4.2 mmol/L
-                  </span>
-                  <span className="text-[10px] text-slate-400">
-                    (Norma: 3.1 - 5.2)
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-500 mt-1">
-                  15-Iyun 2026 • 1-Shifoxona Lab
-                </p>
-              </div>
+              {(() => {
+                const bpRecords = dbService.getBloodPressureRecords();
+                const latestBP = bpRecords[0];
+                return latestBP ? (
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                      So'nggi O'lchov
+                    </h4>
+                    <div className="mt-1 flex items-baseline space-x-2">
+                      <span className="text-xl font-black text-red-600 dark:text-red-400 font-mono">
+                        {latestBP.systolic} / {latestBP.diastolic}
+                      </span>
+                      <span className="text-xs font-bold text-amber-500">
+                        ❤️ {latestBP.pulse} bpm
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      {latestBP.timestamp}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-400 py-4">Qon bosimi ma'lumotlari yo'q</p>
+                );
+              })()}
             </div>
 
             <button
-              onClick={() => setActiveTab('emr')}
-              className="mt-4 w-full py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-800 text-xs font-semibold rounded-xl transition text-center"
+              onClick={() => setActiveTab('bp')}
+              className="mt-4 w-full py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-red-50 dark:hover:bg-slate-800 text-xs font-semibold rounded-xl transition text-center"
             >
-              Tahlillar tarixi
+              Bosimni o'lchash
             </button>
           </div>
 

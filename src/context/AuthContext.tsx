@@ -15,24 +15,40 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserProfile | null>(() => {
-    const saved = localStorage.getItem('healthaccess_user_logged_in');
-    return saved === 'true' ? dbService.getUserProfile() : null;
+    try {
+      const saved = localStorage.getItem('healthaccess_user_logged_in');
+      return saved === 'true' ? dbService.getUserProfile() : null;
+    } catch {
+      return null;
+    }
   });
 
   const loginAsDemo = () => {
     const defaultUser = dbService.getUserProfile();
-    localStorage.setItem('healthaccess_user_logged_in', 'true');
+    try {
+      localStorage.setItem('healthaccess_user_logged_in', 'true');
+    } catch (e) {
+      console.warn('localStorage error in loginAsDemo:', e);
+    }
     setUser(defaultUser);
   };
 
   const registerUser = (newUser: UserProfile) => {
-    dbService.updateUserProfile(newUser);
-    localStorage.setItem('healthaccess_user_logged_in', 'true');
+    try {
+      dbService.updateUserProfile(newUser);
+      localStorage.setItem('healthaccess_user_logged_in', 'true');
+    } catch (e) {
+      console.warn('localStorage error in registerUser:', e);
+    }
     setUser(newUser);
   };
 
   const logout = () => {
-    localStorage.removeItem('healthaccess_user_logged_in');
+    try {
+      localStorage.removeItem('healthaccess_user_logged_in');
+    } catch (e) {
+      console.warn('localStorage error in logout:', e);
+    }
     setUser(null);
   };
 

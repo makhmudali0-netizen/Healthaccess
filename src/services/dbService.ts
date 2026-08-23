@@ -1,5 +1,5 @@
-import { Facility, Doctor, Appointment, FirstAidArticle, MedicalRecord, FamilyMember, NotificationItem, UserProfile } from '../types';
-import { MOCK_FACILITIES, MOCK_DOCTORS, MOCK_FIRST_AID_ARTICLES, MOCK_APPOINTMENTS, MOCK_MEDICAL_RECORDS, MOCK_FAMILY, DEMO_USER } from '../data/mockData';
+import { Facility, Doctor, Appointment, FirstAidArticle, MedicalRecord, FamilyMember, NotificationItem, UserProfile, BloodPressureRecord } from '../types';
+import { MOCK_FACILITIES, MOCK_DOCTORS, MOCK_FIRST_AID_ARTICLES, MOCK_APPOINTMENTS, MOCK_MEDICAL_RECORDS, MOCK_FAMILY, DEMO_USER, MOCK_BLOOD_PRESSURE } from '../data/mockData';
 import { supabase, isSupabaseConfigured } from './supabase';
 
 const STORAGE_KEYS = {
@@ -10,52 +10,60 @@ const STORAGE_KEYS = {
   EMR: 'healthaccess_emr',
   FAMILY: 'healthaccess_family',
   USER: 'healthaccess_user_profile',
-  NOTIFICATIONS: 'healthaccess_notifications'
+  NOTIFICATIONS: 'healthaccess_notifications',
+  BLOOD_PRESSURE: 'healthaccess_blood_pressure'
 };
 
 // Initialize default storage data if missing or outdated
 export function initLocalStorage(): void {
-  const storedFacs = localStorage.getItem(STORAGE_KEYS.FACILITIES);
-  if (!storedFacs || JSON.parse(storedFacs).length < MOCK_FACILITIES.length) {
-    localStorage.setItem(STORAGE_KEYS.FACILITIES, JSON.stringify(MOCK_FACILITIES));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.DOCTORS)) {
-    localStorage.setItem(STORAGE_KEYS.DOCTORS, JSON.stringify(MOCK_DOCTORS));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.APPOINTMENTS)) {
-    localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(MOCK_APPOINTMENTS));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.FIRST_AID)) {
-    localStorage.setItem(STORAGE_KEYS.FIRST_AID, JSON.stringify(MOCK_FIRST_AID_ARTICLES));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.EMR)) {
-    localStorage.setItem(STORAGE_KEYS.EMR, JSON.stringify(MOCK_MEDICAL_RECORDS));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.FAMILY)) {
-    localStorage.setItem(STORAGE_KEYS.FAMILY, JSON.stringify(MOCK_FAMILY));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.USER)) {
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(DEMO_USER));
-  }
-  if (!localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS)) {
-    const initialNotifs: NotificationItem[] = [
-      {
-        id: "notif-1",
-        userId: DEMO_USER.id,
-        title: {
-          uz: "Qabulga yozilish muvaffaqiyatli",
-          ru: "Запись на приём успешна"
-        },
-        message: {
-          uz: "28-avgust kuni 10:30 da Dr. Alisher Toshmatov qabulingiz bor.",
-          ru: "28 августа в 10:30 у вас приём у Dr. Alisher Toshmatov."
-        },
-        type: "appointment",
-        timestamp: new Date().toISOString(),
-        read: false
-      }
-    ];
-    localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(initialNotifs));
+  try {
+    const storedFacs = localStorage.getItem(STORAGE_KEYS.FACILITIES);
+    if (!storedFacs || JSON.parse(storedFacs).length < MOCK_FACILITIES.length) {
+      localStorage.setItem(STORAGE_KEYS.FACILITIES, JSON.stringify(MOCK_FACILITIES));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.DOCTORS)) {
+      localStorage.setItem(STORAGE_KEYS.DOCTORS, JSON.stringify(MOCK_DOCTORS));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.APPOINTMENTS)) {
+      localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(MOCK_APPOINTMENTS));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.FIRST_AID)) {
+      localStorage.setItem(STORAGE_KEYS.FIRST_AID, JSON.stringify(MOCK_FIRST_AID_ARTICLES));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.EMR)) {
+      localStorage.setItem(STORAGE_KEYS.EMR, JSON.stringify(MOCK_MEDICAL_RECORDS));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.FAMILY)) {
+      localStorage.setItem(STORAGE_KEYS.FAMILY, JSON.stringify(MOCK_FAMILY));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.USER)) {
+      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(DEMO_USER));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.BLOOD_PRESSURE)) {
+      localStorage.setItem(STORAGE_KEYS.BLOOD_PRESSURE, JSON.stringify(MOCK_BLOOD_PRESSURE));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS)) {
+      const initialNotifs: NotificationItem[] = [
+        {
+          id: "notif-1",
+          userId: DEMO_USER.id,
+          title: {
+            uz: "Qabulga yozilish muvaffaqiyatli",
+            ru: "Запись на приём успешна"
+          },
+          message: {
+            uz: "28-avgust kuni 10:30 da Dr. Alisher Toshmatov qabulingiz bor.",
+            ru: "28 августа в 10:30 у вас приём у Dr. Alisher Toshmatov."
+          },
+          type: "appointment",
+          timestamp: new Date().toISOString(),
+          read: false
+        }
+      ];
+      localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(initialNotifs));
+    }
+  } catch (e) {
+    console.warn('localStorage error in initLocalStorage:', e);
   }
 }
 
@@ -195,6 +203,44 @@ export const dbService = {
     const current = this.getNotifications();
     const updated = current.map(n => ({ ...n, read: true }));
     localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(updated));
+  },
+
+  // Blood Pressure Records
+  getBloodPressureRecords(): BloodPressureRecord[] {
+    initLocalStorage();
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.BLOOD_PRESSURE);
+      return data ? JSON.parse(data) : MOCK_BLOOD_PRESSURE;
+    } catch {
+      return MOCK_BLOOD_PRESSURE;
+    }
+  },
+
+  addBloodPressureRecord(record: Omit<BloodPressureRecord, 'id' | 'timestamp'>): BloodPressureRecord {
+    const current = this.getBloodPressureRecords();
+    const newRecord: BloodPressureRecord = {
+      ...record,
+      id: `bp-${Date.now()}`,
+      timestamp: new Date().toISOString().replace('T', ' ').slice(0, 16)
+    };
+    const updated = [newRecord, ...current];
+    try {
+      localStorage.setItem(STORAGE_KEYS.BLOOD_PRESSURE, JSON.stringify(updated));
+    } catch (e) {
+      console.warn('localStorage error adding blood pressure record:', e);
+    }
+    return newRecord;
+  },
+
+  deleteBloodPressureRecord(id: string): BloodPressureRecord[] {
+    const current = this.getBloodPressureRecords();
+    const updated = current.filter(r => r.id !== id);
+    try {
+      localStorage.setItem(STORAGE_KEYS.BLOOD_PRESSURE, JSON.stringify(updated));
+    } catch (e) {
+      console.warn('localStorage error deleting blood pressure record:', e);
+    }
+    return updated;
   },
 
   // Supabase Cloud Sync helper

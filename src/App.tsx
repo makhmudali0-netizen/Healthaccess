@@ -26,6 +26,7 @@ import { VaccinationSchedule } from './components/vaccination/VaccinationSchedul
 import { UserProfileView } from './components/profile/UserProfileView';
 import { DoctorDashboardView } from './components/doctor/DoctorDashboardView';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { BloodPressureView } from './components/bp/BloodPressureView';
 import { Facility } from './types';
 import { HeartPulse, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
 
@@ -71,7 +72,7 @@ const MainAppContent: React.FC = () => {
 
       {/* Mandatory Registration / Login Gatekeeper Modal before accessing app */}
       {!isAuthenticated && (
-        <AuthGateModal onSuccess={() => setActiveTab('home')} />
+        <AuthGateModal onSuccess={(targetTab) => setActiveTab(targetTab || 'home')} />
       )}
 
       {/* Offline Alert Banner */}
@@ -105,6 +106,10 @@ const MainAppContent: React.FC = () => {
               changeTab('appointments');
             }}
           />
+        )}
+
+        {activeTab === 'bp' && (
+          <BloodPressureView />
         )}
 
         {activeTab === 'map' && (

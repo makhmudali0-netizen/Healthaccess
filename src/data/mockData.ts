@@ -1,4 +1,40 @@
-import { Facility, Doctor, FirstAidArticle, Vaccine, UserProfile, MedicalRecord, FamilyMember, Appointment } from '../types';
+import { Facility, Doctor, FirstAidArticle, Vaccine, UserProfile, MedicalRecord, FamilyMember, Appointment, BloodPressureRecord } from '../types';
+
+export const MOCK_BLOOD_PRESSURE: BloodPressureRecord[] = [
+  {
+    id: "bp-1",
+    systolic: 118,
+    diastolic: 78,
+    pulse: 72,
+    category: "normal",
+    timestamp: "2026-08-23 08:30",
+    condition: "morning",
+    notes: "Ertalabki o'lchov, tinch holatda",
+    measuredVia: "manual"
+  },
+  {
+    id: "bp-2",
+    systolic: 125,
+    diastolic: 82,
+    pulse: 78,
+    category: "elevated",
+    timestamp: "2026-08-22 19:45",
+    condition: "evening",
+    notes: "Kechki ovqatdan so'ng",
+    measuredVia: "camera_ppg"
+  },
+  {
+    id: "bp-3",
+    systolic: 120,
+    diastolic: 80,
+    pulse: 75,
+    category: "normal",
+    timestamp: "2026-08-21 09:00",
+    condition: "resting",
+    notes: "Dam olish vaqtida",
+    measuredVia: "bluetooth_cuff"
+  }
+];
 
 export const UZBEKISTAN_REGIONS = [
   "Toshkent shahri",

@@ -59,6 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     { id: 'home', label: t('nav.home'), icon: HeartPulse },
     { id: 'doctorDashboard', label: 'Shifokor Kabineti', icon: Stethoscope },
     { id: 'facilities', label: t('nav.hospitals'), icon: Activity },
+    { id: 'bp', label: t('nav.bp'), icon: HeartPulse },
     { id: 'map', label: t('nav.map'), icon: MapPin },
     { id: 'appointments', label: t('nav.appointments'), icon: Calendar },
     { id: 'doctorChat', label: t('nav.doctorChat'), icon: Stethoscope },

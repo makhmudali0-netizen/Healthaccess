@@ -16,7 +16,8 @@ export const uz = {
     admin: "Admin panel",
     doctorChat: "Shifokor bilan muloqot",
     firstAid: "Birinchi yordam",
-    vaccinations: "Emlash jadvali"
+    vaccinations: "Emlash jadvali",
+    bp: "Qon bosimi"
   },
   
   // Hero & Homepage

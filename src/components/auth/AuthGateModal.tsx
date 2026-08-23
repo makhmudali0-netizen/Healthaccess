@@ -17,11 +17,12 @@ import {
   Stethoscope,
   Building2,
   Award,
-  QrCode
+  QrCode,
+  AlertCircle
 } from 'lucide-react';
 
 interface AuthGateModalProps {
-  onSuccess: () => void;
+  onSuccess: (targetTab?: string) => void;
 }
 
 const DOCTOR_SPECIALTIES = [
@@ -47,6 +48,8 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
   const [mode, setMode] = useState<'register' | 'login'>('register');
   const [role, setRole] = useState<'patient' | 'doctor'>('patient');
   const [showQrModal, setShowQrModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Form fields
   const [fullName, setFullName] = useState('');
@@ -62,7 +65,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
   const [experienceYears, setExperienceYears] = useState(5);
   const [selectedFacilityId, setSelectedFacilityId] = useState('');
 
-  const facilities = dbService.getFacilities();
+  const facilities = dbService.getFacilities() || [];
   const availableDistricts = UZBEKISTAN_DISTRICTS_MAP[region] || [];
 
   // Filter facilities by selected region & district
@@ -82,103 +85,142 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
     }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleRegister = (e?: React.FormEvent | React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setErrorMessage(null);
 
-    if (!fullName.trim() || !phone.trim()) {
-      alert("Iltimos, ism-sharifingiz va telefon raqamingizni kiriting.");
+    const trimmedName = fullName.trim();
+    const trimmedPhone = phone.trim();
+
+    if (!trimmedName) {
+      setErrorMessage("Iltimos, F.I.SH (ism-sharifingiz)ni kiriting.");
+      return;
+    }
+
+    if (!trimmedPhone) {
+      setErrorMessage("Iltimos, telefon raqamingizni kiriting.");
       return;
     }
 
     // MANDATORY PHOTO UPLOAD FOR DOCTORS
     if (role === 'doctor' && !previewImage) {
-      alert("Shifokorlar uchun profil rasmini yuklash MAJBURIIY! Iltimos, rasmingizni yuklang.");
+      setErrorMessage("Shifokorlar uchun profil rasmini yuklash MAJBURIIY! Iltimos, rasmingizni yuklang.");
       return;
     }
 
-    const targetFacility = facilities.find(f => f.id === selectedFacilityId) || regionFacilities[0] || facilities[0];
+    setIsSubmitting(true);
 
-    const newUser: UserProfile = {
-      id: `usr-${Date.now()}`,
-      fullName: fullName.trim(),
-      email: `${phone.replace(/\D/g, '')}@healthaccess.uz`,
-      phone: phone.trim(),
-      dob: '1990-01-01',
-      gender: 'male',
-      region: region,
-      district: district,
-      emergencyContact: {
-        name: 'Aloqa shaxsi',
-        phone: phone.trim(),
-        relationship: 'Oila'
-      },
-      role: role,
-      avatarUrl: avatarUrl
-    };
+    try {
+      const targetFacility = facilities.find(f => f.id === selectedFacilityId) || regionFacilities[0] || facilities[0];
 
-    // If registering as a doctor, save Doctor record to database
-    if (role === 'doctor') {
-      const newDoctor: Doctor = {
-        id: `doc-${Date.now()}`,
-        name: fullName.trim(),
-        specialty: specialty,
-        experienceYears: Number(experienceYears),
-        rating: 5.0,
-        reviewsCount: 1,
-        languages: ["O'zbekcha", "Русский"],
-        facilityId: targetFacility.id,
-        facilityName: targetFacility.name[language],
-        photoUrl: avatarUrl,
-        availableDays: ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma"],
-        timeSlots: ["09:00", "11:00", "14:00", "16:00"],
-        consultationFee: 150000,
-        consultationTypes: ["in_person", "chat", "video"],
-        about: {
-          uz: `${targetFacility.name.uz}da ${specialty} mutaxassisi.`,
-          ru: `Специалист ${specialty} в ${targetFacility.name.ru}.`
-        }
+      const newUser: UserProfile = {
+        id: `usr-${Date.now()}`,
+        fullName: trimmedName,
+        email: `${trimmedPhone.replace(/\D/g, '') || Date.now()}@healthaccess.uz`,
+        phone: trimmedPhone,
+        dob: '1990-01-01',
+        gender: 'male',
+        region: region,
+        district: district,
+        emergencyContact: {
+          name: 'Aloqa shaxsi',
+          phone: trimmedPhone,
+          relationship: 'Oila'
+        },
+        role: role,
+        avatarUrl: previewImage || avatarUrl
       };
 
-      const currentDoctors = dbService.getDoctors();
-      localStorage.setItem('healthaccess_doctors', JSON.stringify([newDoctor, ...currentDoctors]));
-    }
+      // If registering as a doctor, save Doctor record to database
+      if (role === 'doctor') {
+        const facId = targetFacility?.id || 'fac-1';
+        const facNameUz = targetFacility?.name?.uz || 'Markaziy Klinik Shifoxona';
+        const facNameRu = targetFacility?.name?.ru || 'Центральная Клиническая Больница';
+        const facNameDisplay = targetFacility?.name?.[language] || facNameUz;
 
-    registerUser(newUser);
-    onSuccess();
+        const newDoctor: Doctor = {
+          id: `doc-${Date.now()}`,
+          name: trimmedName,
+          specialty: specialty,
+          experienceYears: Number(experienceYears) || 1,
+          rating: 5.0,
+          reviewsCount: 1,
+          languages: ["O'zbekcha", "Русский"],
+          facilityId: facId,
+          facilityName: facNameDisplay,
+          photoUrl: previewImage || avatarUrl,
+          availableDays: ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma"],
+          timeSlots: ["09:00", "11:00", "14:00", "16:00"],
+          consultationFee: 150000,
+          consultationTypes: ["in_person", "chat", "video"],
+          about: {
+            uz: `${facNameUz}da ${specialty} mutaxassisi.`,
+            ru: `Специалист ${specialty} в ${facNameRu}.`
+          }
+        };
+
+        try {
+          const currentDoctors = dbService.getDoctors() || [];
+          localStorage.setItem('healthaccess_doctors', JSON.stringify([newDoctor, ...currentDoctors]));
+        } catch (err) {
+          console.warn('Could not update doctors in local storage', err);
+        }
+      }
+
+      registerUser(newUser);
+      onSuccess();
+    } catch (err) {
+      console.error('Register error:', err);
+      setErrorMessage("Ro'yxatdan o'tishda kutilmagan xatolik yuz berdi. Qayta urinib ko'ring.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!phone.trim()) {
-      alert("Iltimos, telefon raqamingizni kiriting.");
+  const handleLogin = (e?: React.FormEvent | React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setErrorMessage(null);
+
+    const trimmedPhone = phone.trim();
+    if (!trimmedPhone) {
+      setErrorMessage("Iltimos, telefon raqamingizni kiriting.");
       return;
     }
 
-    const existingUser: UserProfile = {
-      id: `usr-logged`,
-      fullName: fullName.trim() || (role === 'doctor' ? "Dr. Shifokor" : "Foydalanuvchi"),
-      email: `${phone.replace(/\D/g, '')}@healthaccess.uz`,
-      phone: phone.trim(),
-      dob: '1992-05-14',
-      gender: 'male',
-      region: region,
-      district: district,
-      emergencyContact: {
-        name: 'Oila',
-        phone: phone.trim(),
-        relationship: 'Oila'
-      },
-      role: role,
-      avatarUrl: avatarUrl
-    };
+    setIsSubmitting(true);
 
-    registerUser(existingUser);
-    onSuccess();
+    try {
+      const existingUser: UserProfile = {
+        id: `usr-logged`,
+        fullName: fullName.trim() || (role === 'doctor' ? "Dr. Shifokor" : "Foydalanuvchi"),
+        email: `${trimmedPhone.replace(/\D/g, '') || Date.now()}@healthaccess.uz`,
+        phone: trimmedPhone,
+        dob: '1992-05-14',
+        gender: 'male',
+        region: region,
+        district: district,
+        emergencyContact: {
+          name: 'Oila',
+          phone: trimmedPhone,
+          relationship: 'Oila'
+        },
+        role: role,
+        avatarUrl: avatarUrl
+      };
+
+      registerUser(existingUser);
+      onSuccess();
+    } catch (err) {
+      console.error('Login error:', err);
+      setErrorMessage("Tizimga kirishda xatolik yuz berdi.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-auto animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md overflow-y-auto p-3 sm:p-4 flex items-center justify-center min-h-screen">
+      <div className="bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 rounded-3xl max-w-lg w-full p-5 sm:p-8 shadow-2xl relative my-auto max-h-[92vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
         
         {/* Top Header Logo */}
         <div className="text-center space-y-2 mb-6">
@@ -242,6 +284,14 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
           </button>
         </div>
 
+        {/* Inline Error Message Alert Banner */}
+        {errorMessage && (
+          <div className="mb-4 p-3 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900 rounded-2xl text-rose-600 dark:text-rose-300 text-xs font-bold flex items-center space-x-2 animate-in fade-in">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
         {mode === 'register' ? (
           <form onSubmit={handleRegister} className="space-y-4">
             
@@ -281,7 +331,10 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                   type="text"
                   required
                   value={fullName}
-                  onChange={e => setFullName(e.target.value)}
+                  onChange={e => {
+                    setFullName(e.target.value);
+                    if (errorMessage) setErrorMessage(null);
+                  }}
                   placeholder="Ism-sharifingizni kiriting"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
@@ -299,7 +352,10 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                   type="tel"
                   required
                   value={phone}
-                  onChange={e => setPhone(e.target.value)}
+                  onChange={e => {
+                    setPhone(e.target.value);
+                    if (errorMessage) setErrorMessage(null);
+                  }}
                   placeholder="+998 90 123 45 67"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
@@ -401,10 +457,18 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-3.5 bg-[#dc2626] hover:bg-red-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition flex items-center justify-center space-x-2"
+              disabled={isSubmitting}
+              onClick={handleRegister}
+              className="w-full py-3.5 bg-[#dc2626] hover:bg-red-700 active:bg-red-800 text-white font-extrabold text-xs rounded-2xl shadow-lg transition flex items-center justify-center space-x-2 cursor-pointer touch-manipulation disabled:opacity-50"
             >
-              <span>{role === 'doctor' ? "Shifokor profilini tasdiqlash va kirish" : "Ro'yxatdan o'tish va kirish"}</span>
-              <ArrowRight className="w-4 h-4" />
+              {isSubmitting ? (
+                <span>Ro'yxatga olinmoqda...</span>
+              ) : (
+                <>
+                  <span>{role === 'doctor' ? "Shifokor profilini tasdiqlash va kirish" : "Ro'yxatdan o'tish va kirish"}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
 
           </form>
@@ -421,7 +485,10 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                   type="tel"
                   required
                   value={phone}
-                  onChange={e => setPhone(e.target.value)}
+                  onChange={e => {
+                    setPhone(e.target.value);
+                    if (errorMessage) setErrorMessage(null);
+                  }}
                   placeholder="+998 90 123 45 67"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
@@ -446,26 +513,47 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-[#dc2626] hover:bg-red-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition flex items-center justify-center space-x-2"
+              disabled={isSubmitting}
+              onClick={handleLogin}
+              className="w-full py-3.5 bg-[#dc2626] hover:bg-red-700 active:bg-red-800 text-white font-extrabold text-xs rounded-2xl shadow-lg transition flex items-center justify-center space-x-2 cursor-pointer touch-manipulation disabled:opacity-50"
             >
-              <span>Tizimga Kirish</span>
-              <ArrowRight className="w-4 h-4" />
+              {isSubmitting ? (
+                <span>Kirilmoqda...</span>
+              ) : (
+                <>
+                  <span>Tizimga Kirish</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
 
           </form>
         )}
 
         {/* Demo Fast Login Option */}
-        <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-900 text-center">
+        <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-900 text-center space-y-2">
           <button
+            type="button"
             onClick={() => {
               loginAsDemo();
               onSuccess();
             }}
-            className="w-full py-2.5 bg-slate-100 dark:bg-neutral-900 hover:bg-slate-200 dark:hover:bg-neutral-800 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl border border-slate-200 dark:border-neutral-800 transition flex items-center justify-center space-x-1.5"
+            className="w-full py-2.5 bg-slate-100 dark:bg-neutral-900 hover:bg-slate-200 dark:hover:bg-neutral-800 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl border border-slate-200 dark:border-neutral-800 transition flex items-center justify-center space-x-1.5 cursor-pointer touch-manipulation"
           >
             <Sparkles className="w-4 h-4 text-amber-500" />
             <span>Demo Profil sifatida tezda kirish</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              loginAsDemo();
+              onSuccess('bp');
+            }}
+            className="w-full py-3 bg-[#dc2626] hover:bg-red-700 text-white font-extrabold text-xs rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer touch-manipulation"
+          >
+            <HeartPulse className="w-4 h-4 animate-pulse" />
+            <span>🩸 Qon Bosimi Monitorini Ochish (Tezkor)</span>
           </button>
         </div>
 

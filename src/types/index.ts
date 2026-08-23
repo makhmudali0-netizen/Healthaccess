@@ -237,3 +237,19 @@ export interface AIChatMessage {
     payload?: string;
   };
 }
+
+export type BPCategory = 'normal' | 'elevated' | 'stage1' | 'stage2' | 'crisis';
+
+export interface BloodPressureRecord {
+  id: string;
+  userId?: string;
+  systolic: number;  // mmHg
+  diastolic: number; // mmHg
+  pulse: number;     // bpm
+  category: BPCategory;
+  timestamp: string;
+  condition: 'resting' | 'after_exercise' | 'morning' | 'evening' | 'after_medication';
+  notes?: string;
+  measuredVia?: 'camera_ppg' | 'manual' | 'bluetooth_cuff';
+}
+
