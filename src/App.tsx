@@ -24,6 +24,7 @@ import { MedicalRecordsView } from './components/emr/MedicalRecordsView';
 import { FamilyHealthView } from './components/family/FamilyHealthView';
 import { VaccinationSchedule } from './components/vaccination/VaccinationSchedule';
 import { UserProfileView } from './components/profile/UserProfileView';
+import { DoctorDashboardView } from './components/doctor/DoctorDashboardView';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { Facility } from './types';
 import { HeartPulse, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
@@ -140,6 +141,10 @@ const MainAppContent: React.FC = () => {
 
         {activeTab === 'vaccinations' && (
           <VaccinationSchedule />
+        )}
+
+        {activeTab === 'doctorDashboard' && (
+          <DoctorDashboardView />
         )}
 
         {activeTab === 'profile' && (
