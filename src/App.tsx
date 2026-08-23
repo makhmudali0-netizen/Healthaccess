@@ -9,7 +9,6 @@ import { Header } from './components/layout/Header';
 import { MobileNav } from './components/layout/MobileNav';
 import { OfflineBanner } from './components/layout/OfflineBanner';
 import { SMSToast } from './components/layout/SMSToast';
-import { SplashScreen } from './components/layout/SplashScreen';
 
 import { Hero } from './components/home/Hero';
 import { MyHealthWidget } from './components/home/MyHealthWidget';
@@ -64,9 +63,6 @@ const MainAppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 transition-colors pb-16 lg:pb-0">
-      
-      {/* Entry Splash Screen Animation */}
-      {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
 
       {/* Offline Alert Banner */}
       <OfflineBanner />

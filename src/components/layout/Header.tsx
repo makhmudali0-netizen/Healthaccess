@@ -76,12 +76,12 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               onClick={() => setActiveTab('home')}
               className="flex items-center space-x-2.5 cursor-pointer group"
             >
-              <div className="w-10 h-10 rounded-2xl bg-rose-600 dark:bg-rose-600 flex items-center justify-center text-white shadow-md shadow-rose-500/30 group-hover:scale-105 transition">
+              <div className="w-10 h-10 rounded-2xl bg-[#dc2626] flex items-center justify-center text-white shadow-md shadow-red-600/30 group-hover:scale-105 transition">
                 <HeartPulse className="w-6 h-6 animate-pulse-slow" />
               </div>
               <div>
                 <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white flex items-center">
-                  Health Access <span className="text-rose-600 dark:text-rose-500 ml-1">.UZ</span>
+                  Health Access <span className="text-[#dc2626] ml-1">.UZ</span>
                 </span>
                 <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 leading-none">
                   O'zbekiston Milliy Tibbiyot Portali
