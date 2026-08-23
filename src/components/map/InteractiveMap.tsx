@@ -56,15 +56,37 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({ onBookAppointmen
 
   // Fullscreen state
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const fullScreenContainerRef = useRef<HTMLDivElement>(null);
 
   const toggleFullscreen = () => {
-    setIsFullscreen(prev => !prev);
+    if (!isFullscreen) {
+      if (fullScreenContainerRef.current?.requestFullscreen) {
+        fullScreenContainerRef.current.requestFullscreen().catch(() => {});
+      }
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen && document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+      setIsFullscreen(false);
+    }
     setTimeout(() => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.invalidateSize();
       }
-    }, 200);
+    }, 300);
   };
+
+  useEffect(() => {
+    const handleFSChange = () => {
+      if (!document.fullscreenElement) {
+        setIsFullscreen(false);
+        setTimeout(() => mapInstanceRef.current?.invalidateSize(), 300);
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFSChange);
+    return () => document.removeEventListener('fullscreenchange', handleFSChange);
+  }, []);
 
   // Selected facility and routing state
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
@@ -478,11 +500,14 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({ onBookAppointmen
       )}
 
       {/* Main Map + Sidebar Split View */}
-      <div className={`transition-all duration-300 ${
-        isFullscreen
-          ? 'fixed inset-0 z-50 w-screen h-screen bg-slate-950 p-2 sm:p-4 grid grid-cols-1 lg:grid-cols-4 gap-4 overflow-hidden'
-          : 'grid grid-cols-1 lg:grid-cols-3 gap-6 h-[620px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 dark:border-neutral-800'
-      }`}>
+      <div
+        ref={fullScreenContainerRef}
+        className={`transition-all duration-300 ${
+          isFullscreen
+            ? 'fixed inset-0 z-[9999] w-screen h-screen min-h-screen bg-slate-950 p-2 sm:p-4 grid grid-cols-1 lg:grid-cols-4 gap-4 overflow-hidden'
+            : 'grid grid-cols-1 lg:grid-cols-3 gap-6 h-[620px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 dark:border-neutral-800'
+        }`}
+      >
         
         {/* Real Leaflet Map Container */}
         <div className={`${isFullscreen ? 'lg:col-span-3 h-full' : 'lg:col-span-2 h-full'} relative bg-slate-900 rounded-2xl overflow-hidden`}>

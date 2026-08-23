@@ -13,9 +13,10 @@ const STORAGE_KEYS = {
   NOTIFICATIONS: 'healthaccess_notifications'
 };
 
-// Initialize default storage data if missing
+// Initialize default storage data if missing or outdated
 export function initLocalStorage(): void {
-  if (!localStorage.getItem(STORAGE_KEYS.FACILITIES)) {
+  const storedFacs = localStorage.getItem(STORAGE_KEYS.FACILITIES);
+  if (!storedFacs || JSON.parse(storedFacs).length < MOCK_FACILITIES.length) {
     localStorage.setItem(STORAGE_KEYS.FACILITIES, JSON.stringify(MOCK_FACILITIES));
   }
   if (!localStorage.getItem(STORAGE_KEYS.DOCTORS)) {

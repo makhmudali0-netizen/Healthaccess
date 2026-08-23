@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthaccess-v7-fullscreen';
+const CACHE_NAME = 'healthaccess-v8-force-400-facilities';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
