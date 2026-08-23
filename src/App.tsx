@@ -28,8 +28,12 @@ import { AdminDashboard } from './components/admin/AdminDashboard';
 import { Facility } from './types';
 import { HeartPulse, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
 
+import { useAuth } from './context/AuthContext';
+import { AuthGateModal } from './components/auth/AuthGateModal';
+
 const MainAppContent: React.FC = () => {
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
   const { isSimulatedOffline, toggleSimulatedOffline } = useOffline();
   const [activeTab, setActiveTab] = useState<string>('home');
   const [selectedBookingFacility, setSelectedBookingFacility] = useState<Facility | null>(null);
@@ -63,6 +67,11 @@ const MainAppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 transition-colors pb-16 lg:pb-0">
+
+      {/* Mandatory Registration / Login Gatekeeper Modal before accessing app */}
+      {!isAuthenticated && (
+        <AuthGateModal onSuccess={() => setActiveTab('home')} />
+      )}
 
       {/* Offline Alert Banner */}
       <OfflineBanner />

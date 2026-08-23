@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthaccess-v5-red';
+const CACHE_NAME = 'healthaccess-v6-register';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
