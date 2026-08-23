@@ -182,7 +182,7 @@ export const MedicalRecordsView: React.FC = () => {
                   required
                   value={newTitle}
                   onChange={e => setNewTitle(e.target.value)}
-                  placeholder="Masalan: Stomatologiyada ko'rik xulosasi"
+                  placeholder="Hujjat nomini kiriting"
                   className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
                 />
               </div>

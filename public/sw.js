@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthaccess-v8-force-400-facilities';
+const CACHE_NAME = 'healthaccess-v9-doctor-reg';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

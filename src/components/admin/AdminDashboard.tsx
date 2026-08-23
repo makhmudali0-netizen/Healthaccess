@@ -152,7 +152,7 @@ export const AdminDashboard: React.FC = () => {
                   required
                   value={newName}
                   onChange={e => setNewName(e.target.value)}
-                  placeholder="Masalan: Tashkent Diagnostic Center"
+                  placeholder="Muassasa nomini kiriting"
                   className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
                 />
               </div>

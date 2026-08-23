@@ -146,7 +146,6 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit }) => {
 
             {/* Example Queries */}
             <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-              <span className="font-medium text-slate-400">Masalan:</span>
               {exampleQueries.map((query, idx) => (
                 <button
                   key={idx}

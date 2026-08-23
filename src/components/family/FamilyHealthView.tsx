@@ -154,7 +154,7 @@ export const FamilyHealthView: React.FC = () => {
                   required
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  placeholder="Masalan: Malika Rahimova"
+                  placeholder="Ism-sharifini kiriting"
                   className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
                 />
               </div>

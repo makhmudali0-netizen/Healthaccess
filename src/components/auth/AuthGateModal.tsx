@@ -2,31 +2,48 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { UZBEKISTAN_REGIONS, UZBEKISTAN_DISTRICTS_MAP } from '../../data/mockData';
-import { UserProfile } from '../../types';
+import { dbService } from '../../services/dbService';
+import { UserProfile, Doctor } from '../../types';
 import {
   HeartPulse,
   User,
   Phone,
   Lock,
-  MapPin,
   Camera,
   Upload,
-  CheckCircle2,
   ArrowRight,
-  ShieldCheck,
   Sparkles,
-  X
+  Stethoscope,
+  Building2,
+  Award
 } from 'lucide-react';
 
 interface AuthGateModalProps {
   onSuccess: () => void;
 }
 
+const DOCTOR_SPECIALTIES = [
+  "Kardiolog",
+  "Jarroh (Xirurg)",
+  "Terapevt",
+  "Pediatr",
+  "Nevrolog",
+  "Oftalmolog",
+  "Stomatolog",
+  "Ginekolog",
+  "Urolog",
+  "Farmatsevt",
+  "Dermatolog",
+  "LOR (Otorinolaringolog)",
+  "Endokrinolog"
+];
+
 export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
   const { registerUser, loginAsDemo } = useAuth();
   const { language } = useLanguage();
 
   const [mode, setMode] = useState<'register' | 'login'>('register');
+  const [role, setRole] = useState<'patient' | 'doctor'>('patient');
 
   // Form fields
   const [fullName, setFullName] = useState('');
@@ -36,6 +53,17 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
   const [district, setDistrict] = useState('Yunusobod tumani');
   const [avatarUrl, setAvatarUrl] = useState<string>('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80');
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  // Doctor-specific fields
+  const [specialty, setSpecialty] = useState('Terapevt');
+  const [experienceYears, setExperienceYears] = useState(5);
+  const [selectedFacilityId, setSelectedFacilityId] = useState('');
+
+  const facilities = dbService.getFacilities();
+  const availableDistricts = UZBEKISTAN_DISTRICTS_MAP[region] || [];
+
+  // Filter facilities by selected region & district
+  const regionFacilities = facilities.filter(f => f.region === region);
 
   // Handle custom profile photo upload
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,28 +81,64 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!fullName.trim() || !phone.trim()) {
-      alert("Iltimos, ismingiz va telefon raqamingizni kiriting.");
+      alert("Iltimos, ism-sharifingiz va telefon raqamingizni kiriting.");
       return;
     }
+
+    // MANDATORY PHOTO UPLOAD FOR DOCTORS
+    if (role === 'doctor' && !previewImage) {
+      alert("Shifokorlar uchun profil rasmini yuklash MAJBURIIY! Iltimos, rasmingizni yuklang.");
+      return;
+    }
+
+    const targetFacility = facilities.find(f => f.id === selectedFacilityId) || regionFacilities[0] || facilities[0];
 
     const newUser: UserProfile = {
       id: `usr-${Date.now()}`,
       fullName: fullName.trim(),
       email: `${phone.replace(/\D/g, '')}@healthaccess.uz`,
       phone: phone.trim(),
-      dob: '1995-01-01',
+      dob: '1990-01-01',
       gender: 'male',
       region: region,
       district: district,
       emergencyContact: {
-        name: 'Taqdim etilmadi',
+        name: 'Aloqa shaxsi',
         phone: phone.trim(),
-        relationship: 'Yaqin qarindoshi'
+        relationship: 'Oila'
       },
-      role: 'patient',
+      role: role,
       avatarUrl: avatarUrl
     };
+
+    // If registering as a doctor, save Doctor record to database
+    if (role === 'doctor') {
+      const newDoctor: Doctor = {
+        id: `doc-${Date.now()}`,
+        name: fullName.trim(),
+        specialty: specialty,
+        experienceYears: Number(experienceYears),
+        rating: 5.0,
+        reviewsCount: 1,
+        languages: ["O'zbekcha", "Русский"],
+        facilityId: targetFacility.id,
+        facilityName: targetFacility.name[language],
+        photoUrl: avatarUrl,
+        availableDays: ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma"],
+        timeSlots: ["09:00", "11:00", "14:00", "16:00"],
+        consultationFee: 150000,
+        consultationTypes: ["in_person", "chat", "video"],
+        about: {
+          uz: `${targetFacility.name.uz}da ${specialty} mutaxassisi.`,
+          ru: `Специалист ${specialty} в ${targetFacility.name.ru}.`
+        }
+      };
+
+      const currentDoctors = dbService.getDoctors();
+      localStorage.setItem('healthaccess_doctors', JSON.stringify([newDoctor, ...currentDoctors]));
+    }
 
     registerUser(newUser);
     onSuccess();
@@ -89,7 +153,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
 
     const existingUser: UserProfile = {
       id: `usr-logged`,
-      fullName: fullName.trim() || "Foydalanuvchi",
+      fullName: fullName.trim() || (role === 'doctor' ? "Dr. Shifokor" : "Foydalanuvchi"),
       email: `${phone.replace(/\D/g, '')}@healthaccess.uz`,
       phone: phone.trim(),
       dob: '1992-05-14',
@@ -97,19 +161,17 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
       region: region,
       district: district,
       emergencyContact: {
-        name: 'Yaqin qarindoshi',
+        name: 'Oila',
         phone: phone.trim(),
         relationship: 'Oila'
       },
-      role: 'patient',
+      role: role,
       avatarUrl: avatarUrl
     };
 
     registerUser(existingUser);
     onSuccess();
   };
-
-  const availableDistricts = UZBEKISTAN_DISTRICTS_MAP[region] || [];
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
@@ -124,41 +186,68 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
             Health Access <span className="text-[#dc2626]">.UZ</span>
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Ilovaga kirishdan oldin profilingizni yarating
+            Tizimdan foydalanish uchun profilingizni tanlang va kiring
           </p>
         </div>
 
-        {/* Register / Login Switcher Tabs */}
-        <div className="flex items-center bg-slate-100 dark:bg-neutral-900 p-1 rounded-2xl border border-slate-200 dark:border-neutral-800 mb-6 text-xs font-bold">
+        {/* Mode Switcher: Register / Login */}
+        <div className="flex items-center bg-slate-100 dark:bg-neutral-900 p-1 rounded-2xl border border-slate-200 dark:border-neutral-800 mb-4 text-xs font-bold">
           <button
             onClick={() => setMode('register')}
-            className={`flex-1 py-2.5 rounded-xl transition ${
-              mode === 'register'
-                ? 'bg-[#dc2626] text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            className={`flex-1 py-2 rounded-xl transition ${
+              mode === 'register' ? 'bg-[#dc2626] text-white shadow' : 'text-slate-500 hover:text-white'
             }`}
           >
             Ro'yxatdan o'tish
           </button>
           <button
             onClick={() => setMode('login')}
-            className={`flex-1 py-2.5 rounded-xl transition ${
-              mode === 'login'
-                ? 'bg-[#dc2626] text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            className={`flex-1 py-2 rounded-xl transition ${
+              mode === 'login' ? 'bg-[#dc2626] text-white shadow' : 'text-slate-500 hover:text-white'
             }`}
           >
             Tizimga kirish
           </button>
         </div>
 
+        {/* Role Selector: Patient vs Doctor */}
+        <div className="grid grid-cols-2 gap-2 mb-6 text-xs font-bold">
+          <button
+            type="button"
+            onClick={() => setRole('patient')}
+            className={`p-3 rounded-2xl border flex items-center justify-center space-x-2 transition ${
+              role === 'patient'
+                ? 'border-[#dc2626] bg-red-50 dark:bg-red-950/40 text-[#dc2626]'
+                : 'border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-600 dark:text-slate-400'
+            }`}
+          >
+            <User className="w-4 h-4" />
+            <span>Bemor sifatida</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setRole('doctor')}
+            className={`p-3 rounded-2xl border flex items-center justify-center space-x-2 transition ${
+              role === 'doctor'
+                ? 'border-[#dc2626] bg-red-50 dark:bg-red-950/40 text-[#dc2626]'
+                : 'border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-600 dark:text-slate-400'
+            }`}
+          >
+            <Stethoscope className="w-4 h-4" />
+            <span>Shifokor / Farmatsevt</span>
+          </button>
+        </div>
+
         {mode === 'register' ? (
           <form onSubmit={handleRegister} className="space-y-4">
             
-            {/* Optional Avatar Photo Upload */}
+            {/* Avatar Photo Upload (Mandatory for Doctors) */}
             <div className="flex flex-col items-center justify-center">
               <label className="relative cursor-pointer group">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#dc2626]/30 group-hover:border-[#dc2626] transition shadow-lg bg-slate-100 dark:bg-neutral-900 flex items-center justify-center">
+                <div className={`w-20 h-20 rounded-full overflow-hidden border-4 ${
+                  role === 'doctor' && !previewImage ? 'border-amber-500 animate-pulse' : 'border-[#dc2626]'
+                } transition shadow-lg bg-slate-100 dark:bg-neutral-900 flex items-center justify-center`}>
                   {previewImage ? (
                     <img src={previewImage} alt="Avatar Preview" className="w-full h-full object-cover" />
                   ) : (
@@ -170,16 +259,18 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                 </div>
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </label>
-              <span className="text-[11px] font-bold text-[#dc2626] mt-1.5 flex items-center space-x-1 cursor-pointer">
-                <Upload className="w-3 h-3 mr-1" />
-                <span>Profil rasmini yuklash (Ixtiyoriy)</span>
+              <span className={`text-[11px] font-bold mt-1.5 flex items-center ${
+                role === 'doctor' ? 'text-amber-500' : 'text-[#dc2626]'
+              }`}>
+                <Upload className="w-3.5 h-3.5 mr-1" />
+                <span>{role === 'doctor' ? 'Shifokor rasmini yuklash (MAJBURIIY *)' : 'Profil rasmini yuklash (Ixtiyoriy)'}</span>
               </span>
             </div>
 
             {/* Full Name */}
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                F.I.SH (Ism-sharifingiz) *
+                F.I.SH (Ism-sharif) *
               </label>
               <div className="relative">
                 <User className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
@@ -188,8 +279,8 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                   required
                   value={fullName}
                   onChange={e => setFullName(e.target.value)}
-                  placeholder="Masalan: Jasur Rahimov"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
+                  placeholder="Ism-sharifingizni kiriting"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
               </div>
             </div>
@@ -207,10 +298,65 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
                   placeholder="+998 90 123 45 67"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
               </div>
             </div>
+
+            {/* Doctor-Specific Fields: Specialty & Work Facility */}
+            {role === 'doctor' && (
+              <>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      Mutaxassislik
+                    </label>
+                    <select
+                      value={specialty}
+                      onChange={e => setSpecialty(e.target.value)}
+                      className="w-full bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 focus:outline-none"
+                    >
+                      {DOCTOR_SPECIALTIES.map(spec => (
+                        <option key={spec} value={spec}>{spec}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      Ish tajribasi (yil)
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="50"
+                      value={experienceYears}
+                      onChange={e => setExperienceYears(Number(e.target.value))}
+                      className="w-full bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Associated Facility Selector */}
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    Ishlaydigan Shifoxona, Dorixona yoki Klinika *
+                  </label>
+                  <select
+                    value={selectedFacilityId}
+                    onChange={e => setSelectedFacilityId(e.target.value)}
+                    className="w-full bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 focus:outline-none focus:ring-2 focus:ring-red-600"
+                  >
+                    <option value="">-- Muassasangizni tanlang --</option>
+                    {regionFacilities.map(fac => (
+                      <option key={fac.id} value={fac.id}>
+                        {fac.type === 'pharmacy' ? '💊' : '🏥'} {fac.name[language]} ({fac.district})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
 
             {/* Region & District */}
             <div className="grid grid-cols-2 gap-3">
@@ -225,7 +371,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                     const dists = UZBEKISTAN_DISTRICTS_MAP[e.target.value] || [];
                     if (dists.length > 0) setDistrict(dists[0]);
                   }}
-                  className="w-full bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 focus:outline-none focus:ring-2 focus:ring-red-600"
+                  className="w-full bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 focus:outline-none"
                 >
                   {UZBEKISTAN_REGIONS.map(reg => (
                     <option key={reg} value={reg}>{reg}</option>
@@ -240,7 +386,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                 <select
                   value={district}
                   onChange={e => setDistrict(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 focus:outline-none focus:ring-2 focus:ring-red-600"
+                  className="w-full bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 focus:outline-none"
                 >
                   {availableDistricts.map(dist => (
                     <option key={dist} value={dist}>{dist}</option>
@@ -254,7 +400,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
               type="submit"
               className="w-full py-3.5 bg-[#dc2626] hover:bg-red-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition flex items-center justify-center space-x-2"
             >
-              <span>Ro'yxatdan o'tish va ilovani ochish</span>
+              <span>{role === 'doctor' ? "Shifokor profilini tasdiqlash va kirish" : "Ro'yxatdan o'tish va kirish"}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -264,7 +410,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
             
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Telefon raqamingiz
+                Telefon raqami
               </label>
               <div className="relative">
                 <Phone className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
@@ -274,7 +420,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
                   placeholder="+998 90 123 45 67"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
               </div>
             </div>
@@ -290,7 +436,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-red-600"
                 />
               </div>
             </div>
@@ -299,7 +445,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
               type="submit"
               className="w-full py-3.5 bg-[#dc2626] hover:bg-red-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition flex items-center justify-center space-x-2"
             >
-              <span>Kirish va Ilovani Ochish</span>
+              <span>Tizimga Kirish</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
@@ -307,7 +453,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
         )}
 
         {/* Demo Fast Login Option */}
-        <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-900 text-center space-y-2">
+        <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-900 text-center">
           <button
             onClick={() => {
               loginAsDemo();

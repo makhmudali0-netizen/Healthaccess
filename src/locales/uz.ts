@@ -140,7 +140,7 @@ export const uz = {
     title: "Birinchi yordam markazi",
     disclaimerTitle: "Muhim Tibbiy Ogohlantirish",
     disclaimerText: "Ushbu bo'lim faqat umumiy birinchi yordam ma'lumotlarini taqdim etadi va shifokor tashxisini o'rnini bosmaydi. Hayot uchun xavfli holatlarda darhol 103 Tez Yordam xizmatiga qo'ng'iroq qiling!",
-    searchPlaceholder: "Simptom yoki kasallikni qidiring (masalan: Burun qonashi, Kuydirish)...",
+    searchPlaceholder: "Simptom yoki kasallikni qidiring...",
     whatToDo: "Hozir nima qilish kerak (Ketma-ketlik)",
     whatNotToDo: "Nima qilish QAT'IYAN TAQIQLANADI",
     whenToSeekHelp: "Qachon shifokorga murojaat qilish kerak",
@@ -153,7 +153,7 @@ export const uz = {
     subtitle: "Simptomlar haqida so'rang, birinchi yordam va tibbiy ko'rsatmalar oling.",
     disclaimer: "Health AI umumiy tibbiy ma'lumot beradi. U aniq tashxis qo'ymaydi va shifokor maslahatini o'rnini bosmaydi.",
     suggestedTitle: "Tavsiya etilgan savollar:",
-    inputPlaceholder: "Savolingizni yozing (Masalan: Qorin o'ng tomoni og'risa nima qilish kerak?)...",
+    inputPlaceholder: "Tibbiy savolingiz yoki simptomlarni yozing...",
     emergencyAlertTitle: "SHOSHILINCH ALOMAT ANIQLANDI!",
     emergencyAlertBtn: "103 Tez yordamga qo'ng'iroq qilish",
     clearHistory: "Tarixni tozalash"
