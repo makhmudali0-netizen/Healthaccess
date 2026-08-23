@@ -112,8 +112,8 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit }) => {
 
         {/* Hero Main Content */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-teal-100 dark:bg-teal-950/80 text-teal-700 dark:text-teal-300 text-xs font-semibold mb-4 border border-teal-200 dark:border-teal-800">
-            <ShieldCheck className="w-4 h-4" />
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 text-xs font-semibold mb-4 border border-rose-200 dark:border-rose-800">
+            <ShieldCheck className="w-4 h-4 text-rose-600 dark:text-rose-400" />
             <span>O'zbekiston bo'yicha yagona sog'liqni saqlash ekotizimi</span>
           </div>
 

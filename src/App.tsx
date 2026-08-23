@@ -34,7 +34,7 @@ const MainAppContent: React.FC = () => {
   const { isSimulatedOffline, toggleSimulatedOffline } = useOffline();
   const [activeTab, setActiveTab] = useState<string>('home');
   const [selectedBookingFacility, setSelectedBookingFacility] = useState<Facility | null>(null);
-  const [showSplash, setShowSplash] = useState<boolean>(true);
+  const [showSplash, setShowSplash] = useState<boolean>(false);
 
   // Mobile & Browser Back Button Navigation Handler
   const changeTab = (tab: string) => {
@@ -152,7 +152,7 @@ const MainAppContent: React.FC = () => {
           
           <div className="space-y-3">
             <div className="flex items-center space-x-2 text-white font-bold text-base">
-              <HeartPulse className="w-5 h-5 text-teal-400" />
+              <HeartPulse className="w-5 h-5 text-rose-500 animate-pulse" />
               <span>Health Access .UZ</span>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed">
