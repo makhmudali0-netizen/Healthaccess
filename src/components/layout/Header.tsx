@@ -154,16 +154,6 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 </button>
               </div>
 
-              {/* QR Code Passport & Scanner Button */}
-              <button
-                onClick={() => setIsQrModalOpen(true)}
-                title="QR Kodim va Skaner"
-                className="p-2 rounded-xl bg-red-50 dark:bg-red-950/40 text-[#dc2626] hover:bg-red-100 transition border border-red-200 dark:border-red-900 flex items-center space-x-1 font-bold text-xs"
-              >
-                <QrCode className="w-4 h-4 text-[#dc2626]" />
-                <span className="hidden md:inline">QR Pass</span>
-              </button>
-
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
@@ -338,14 +328,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
         onSelectResult={(type, id) => {
           if (type === 'facility') setActiveTab('facilities');
           if (type === 'doctor') setActiveTab('appointments');
-          if (type === 'firstAid') setActiveTab('firstAid');
         }}
-      />
-
-      {/* QR Code Passport & Scanner Modal */}
-      <QRCodeModal
-        isOpen={isQrModalOpen}
-        onClose={() => setIsQrModalOpen(false)}
       />
     </>
   );

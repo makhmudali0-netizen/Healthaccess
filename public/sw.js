@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthaccess-v11-qr-pass';
+const CACHE_NAME = 'healthaccess-v12-clean-ui';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
