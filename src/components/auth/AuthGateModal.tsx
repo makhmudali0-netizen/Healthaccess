@@ -4,6 +4,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { UZBEKISTAN_REGIONS, UZBEKISTAN_DISTRICTS_MAP } from '../../data/mockData';
 import { dbService } from '../../services/dbService';
 import { UserProfile, Doctor } from '../../types';
+import { QRCodeModal } from '../qr/QRCodeModal';
 import {
   HeartPulse,
   User,
@@ -15,7 +16,8 @@ import {
   Sparkles,
   Stethoscope,
   Building2,
-  Award
+  Award,
+  QrCode
 } from 'lucide-react';
 
 interface AuthGateModalProps {
@@ -44,6 +46,7 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
 
   const [mode, setMode] = useState<'register' | 'login'>('register');
   const [role, setRole] = useState<'patient' | 'doctor'>('patient');
+  const [showQrModal, setShowQrModal] = useState(false);
 
   // Form fields
   const [fullName, setFullName] = useState('');
@@ -452,8 +455,16 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
           </form>
         )}
 
-        {/* Demo Fast Login Option */}
-        <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-900 text-center">
+        {/* Demo Fast Login Option & QR Code Login */}
+        <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-900 text-center space-y-2">
+          <button
+            onClick={() => setShowQrModal(true)}
+            className="w-full py-2.5 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 text-[#dc2626] font-bold text-xs rounded-xl border border-red-200 dark:border-red-900 transition flex items-center justify-center space-x-1.5"
+          >
+            <QrCode className="w-4 h-4 text-[#dc2626]" />
+            <span>📱 QR-Kod Skanerlab Kiring</span>
+          </button>
+
           <button
             onClick={() => {
               loginAsDemo();
@@ -465,6 +476,13 @@ export const AuthGateModal: React.FC<AuthGateModalProps> = ({ onSuccess }) => {
             <span>Demo Profil sifatida tezda kirish</span>
           </button>
         </div>
+
+        {/* QR Code Modal */}
+        <QRCodeModal
+          isOpen={showQrModal}
+          onClose={() => setShowQrModal(false)}
+          onScanSuccess={onSuccess}
+        />
 
       </div>
     </div>

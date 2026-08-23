@@ -1,4 +1,4 @@
-const CACHE_NAME = 'healthaccess-v10-doctor-portal';
+const CACHE_NAME = 'healthaccess-v11-qr-pass';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

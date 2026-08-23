@@ -3,6 +3,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
+import { QRCodeModal } from '../qr/QRCodeModal';
 import {
   HeartPulse,
   Search,
@@ -21,7 +22,8 @@ import {
   Activity,
   Syringe,
   Menu,
-  X
+  X,
+  QrCode
 } from 'lucide-react';
 import { GlobalSearchModal } from '../search/GlobalSearchModal';
 
@@ -39,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
   // Keyboard shortcut Ctrl+K or Cmd+K to open search
   useEffect(() => {
@@ -150,6 +153,16 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   🇷🇺 Ру
                 </button>
               </div>
+
+              {/* QR Code Passport & Scanner Button */}
+              <button
+                onClick={() => setIsQrModalOpen(true)}
+                title="QR Kodim va Skaner"
+                className="p-2 rounded-xl bg-red-50 dark:bg-red-950/40 text-[#dc2626] hover:bg-red-100 transition border border-red-200 dark:border-red-900 flex items-center space-x-1 font-bold text-xs"
+              >
+                <QrCode className="w-4 h-4 text-[#dc2626]" />
+                <span className="hidden md:inline">QR Pass</span>
+              </button>
 
               {/* Theme Toggle */}
               <button
@@ -327,6 +340,12 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           if (type === 'doctor') setActiveTab('appointments');
           if (type === 'firstAid') setActiveTab('firstAid');
         }}
+      />
+
+      {/* QR Code Passport & Scanner Modal */}
+      <QRCodeModal
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
       />
     </>
   );
