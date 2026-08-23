@@ -188,7 +188,7 @@ export const MOCK_FAMILY: FamilyMember[] = [
   }
 ];
 
-export const MOCK_FACILITIES: Facility[] = [
+const INITIAL_CURATED_FACILITIES: Facility[] = [
   {
     id: "fac-1",
     name: {
@@ -203,12 +203,7 @@ export const MOCK_FACILITIES: Facility[] = [
       ru: "Юнусабадский район, ул. Амира Темура 110"
     },
     phone: "+998 71 234 56 78",
-    workingHours: {
-      weekdays: "08:00 - 20:00",
-      saturday: "09:00 - 15:00",
-      sunday: "Yopiq",
-      is24_7: true
-    },
+    workingHours: { weekdays: "24/7", saturday: "24/7", sunday: "24/7", is24_7: true },
     coordinates: { lat: 41.3364, lng: 69.2865 },
     emergency24_7: true,
     departments: ["Kardiologiya", "Xirurgiya", "Pediatriya", "Nevrologiya", "Shoshilinch yordam"],
@@ -234,12 +229,7 @@ export const MOCK_FACILITIES: Facility[] = [
       ru: "Чиланзарский район, ул. Фархадская 2"
     },
     phone: "+998 71 150 48 03",
-    workingHours: {
-      weekdays: "24/7",
-      saturday: "24/7",
-      sunday: "24/7",
-      is24_7: true
-    },
+    workingHours: { weekdays: "24/7", saturday: "24/7", sunday: "24/7", is24_7: true },
     coordinates: { lat: 41.2789, lng: 69.2087 },
     emergency24_7: true,
     departments: ["Reanimatsiya", "Travmatologiya", "Toksikologiya", "Kardiologiya"],
@@ -265,12 +255,7 @@ export const MOCK_FACILITIES: Facility[] = [
       ru: "Мирабадский район, ул. Нукусская 29"
     },
     phone: "+998 71 200 03 03",
-    workingHours: {
-      weekdays: "24/7",
-      saturday: "24/7",
-      sunday: "24/7",
-      is24_7: true
-    },
+    workingHours: { weekdays: "24/7", saturday: "24/7", sunday: "24/7", is24_7: true },
     coordinates: { lat: 41.2995, lng: 69.2731 },
     emergency24_7: true,
     departments: ["Dori-darmonlar", "Tibbiy texnika", "Ortopediya", "Bolalar parvarishi"],
@@ -281,101 +266,166 @@ export const MOCK_FACILITIES: Facility[] = [
     isDemo: true,
     rating: 4.7,
     imageUrl: "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: "fac-4",
-    name: {
-      uz: "Grand Pharm Yunusobod",
-      ru: "Аптека Grand Pharm Юнусабад"
-    },
-    type: "pharmacy",
-    region: "Toshkent shahri",
-    district: "Yunusobod tumani",
-    address: {
-      uz: "Yunusobod 7-chorraha, Shaxriston ko'chasi 4",
-      ru: "Юнусабад 7-й квартал, ул. Шахристон 4"
-    },
-    phone: "+998 71 202 11 11",
-    workingHours: {
-      weekdays: "08:00 - 23:00",
-      saturday: "08:00 - 23:00",
-      sunday: "08:00 - 22:00",
-      is24_7: false
-    },
-    coordinates: { lat: 41.3521, lng: 69.2890 },
-    emergency24_7: false,
-    departments: ["Retsept bo'limi", "Vitamintiya", "Kosmetika"],
-    services: {
-      uz: ["Farmatsevt maslahati", "Bron qilish va olib ketish"],
-      ru: ["Консультация фармацевта", "Бронирование и самовывоз"]
-    },
-    isDemo: true,
-    rating: 4.6,
-    imageUrl: "https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: "fac-5",
-    name: {
-      uz: "Samarqand Viloyat Shoshilinch Tibbiy Yordam Markazi",
-      ru: "Самаркандский Областной Центр Экстренной Помощи"
-    },
-    type: "hospital",
-    region: "Samarqand viloyati",
-    district: "Samarqand shahri",
-    address: {
-      uz: "Samarqand shahri, Dagbitskaya ko'chasi 45",
-      ru: "г. Самарканд, ул. Дагбитская 45"
-    },
-    phone: "+998 66 233 12 40",
-    workingHours: {
-      weekdays: "24/7",
-      saturday: "24/7",
-      sunday: "24/7",
-      is24_7: true
-    },
-    coordinates: { lat: 39.6542, lng: 66.9597 },
-    emergency24_7: true,
-    departments: ["Kardiologiya", "Jarrohlik", "Pediatriya"],
-    services: {
-      uz: ["Teshuvchi jarrohlik", "Dializ", "Tez yordam"],
-      ru: ["Хирургия", "Диализ", "Скорая помощь"]
-    },
-    isDemo: true,
-    rating: 4.8,
-    imageUrl: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: "fac-6",
-    name: {
-      uz: "Buxoro Diagnostika va Klinika Markazi",
-      ru: "Бухарский Диагностический и Клинический Центр"
-    },
-    type: "clinic",
-    region: "Buxoro viloyati",
-    district: "Buxoro shahri",
-    address: {
-      uz: "Buxoro shahri, Navoiy shoh ko'chasi 14",
-      ru: "г. Бухара, пр. Навои 14"
-    },
-    phone: "+998 65 224 88 90",
-    workingHours: {
-      weekdays: "08:00 - 18:00",
-      saturday: "08:00 - 14:00",
-      sunday: "Yopiq",
-      is24_7: false
-    },
-    coordinates: { lat: 39.7747, lng: 64.4286 },
-    emergency24_7: false,
-    departments: ["Terapevt", "Oftalmologiya", "UZI Diagnostika"],
-    services: {
-      uz: ["3D UZI", "Ko'z qon bosimini o'lchash", "Laboratoriya"],
-      ru: ["3D УЗИ", "Глазная диагностика", "Лаборатория"]
-    },
-    isDemo: true,
-    rating: 4.7,
-    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80"
   }
 ];
+
+function generateComprehensiveFacilities(): Facility[] {
+  const list: Facility[] = [...INITIAL_CURATED_FACILITIES];
+
+  const hospitalNames = [
+    "Markaziy Klinik Shifoxonasi",
+    "Shoshilinch Tibbiy Yordam Bo'limi",
+    "Ko'p Tarmoqli Kasalxona",
+    "Kardiologiya va Jarrohlik Klinikasi",
+    "Tuman Markaziy Shifoxonasi",
+    "Onalar va Bolalar Salomatlik Markazi",
+    "Neyroxirurgiya va Travmatologiya",
+    "Bolalar Klinik Kasalxonasi",
+    "Terapiya va Diagnostika Majmuasi",
+    "Respublika Ixtisoslashtirilgan Markazi"
+  ];
+
+  const pharmacyNames = [
+    "OXYmed 24/7",
+    "Grand Pharm",
+    "999 Dorixona 24/7",
+    "Dori-Darmon Markaziy",
+    "Best Pharmacy 24/7",
+    "Arzon Dorixona",
+    "Nika Pharm 24/7",
+    "Evropharm 24/7",
+    "Salomatlik Dorixonasi",
+    "Zümrad Pharm"
+  ];
+
+  const clinicNames = [
+    "Medion Family Clinic",
+    "Akfa Medline Express",
+    "Salomatlik Diagnostika Markazi",
+    "Med-Servis Diagnostika",
+    "Darmon Med Clinic",
+    "Shifa Premium Clinic",
+    "Ibn Sino Meditsina Markazi",
+    "Prof-Med Klinikasi",
+    "Avisenna Family Med",
+    "Evromed Diagnostika"
+  ];
+
+  let idCounter = 100;
+
+  UZBEKISTAN_REGIONS.forEach(region => {
+    const districts = UZBEKISTAN_DISTRICTS_MAP[region] || ["Markaziy tuman"];
+    const baseCoords = REGION_COORDINATES[region] || { lat: 41.2995, lng: 69.2401 };
+
+    districts.forEach(district => {
+      // 3 Hospitals per district
+      for (let i = 1; i <= 3; i++) {
+        idCounter++;
+        const latOffset = Math.sin(idCounter) * 0.035;
+        const lngOffset = Math.cos(idCounter) * 0.035;
+
+        list.push({
+          id: `fac-h-${idCounter}`,
+          name: {
+            uz: `${district} ${hospitalNames[idCounter % hospitalNames.length]} №${i}`,
+            ru: `Городская Больница №${i} (${district})`
+          },
+          type: 'hospital',
+          region,
+          district,
+          address: {
+            uz: `${district}, Mustaqillik shoh ko'chasi ${i * 14}-uy`,
+            ru: `${district}, пр. Мустакиллик ${i * 14}`
+          },
+          phone: `+998 ${71 + (idCounter % 20)} ${100 + (idCounter % 800)} ${10 + (idCounter % 80)} ${10 + (idCounter % 80)}`,
+          workingHours: { weekdays: "24/7", saturday: "24/7", sunday: "24/7", is24_7: true },
+          coordinates: {
+            lat: parseFloat((baseCoords.lat + latOffset).toFixed(4)),
+            lng: parseFloat((baseCoords.lng + lngOffset).toFixed(4))
+          },
+          emergency24_7: true,
+          departments: ["Kardiologiya", "Jarrohlik", "Pediatriya", "Reanimatsiya"],
+          services: { uz: ["Statsionar", "MRT va UZI", "24/7 Tez Yordam"], ru: ["Стационар", "МРТ", "Скорая помощь"] },
+          isDemo: true,
+          rating: parseFloat((4.5 + (idCounter % 5) * 0.1).toFixed(1)),
+          imageUrl: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=600&q=80"
+        });
+      }
+
+      // 4 Pharmacies per district
+      for (let i = 1; i <= 4; i++) {
+        idCounter++;
+        const latOffset = Math.sin(idCounter * 1.5) * 0.045;
+        const lngOffset = Math.cos(idCounter * 1.5) * 0.045;
+
+        list.push({
+          id: `fac-p-${idCounter}`,
+          name: {
+            uz: `${pharmacyNames[idCounter % pharmacyNames.length]} (${district})`,
+            ru: `Аптека ${pharmacyNames[idCounter % pharmacyNames.length]} (${district})`
+          },
+          type: 'pharmacy',
+          region,
+          district,
+          address: {
+            uz: `${district}, Amir Temur ko'chasi ${i * 9}-uy`,
+            ru: `${district}, ул. Амира Темура ${i * 9}`
+          },
+          phone: `+998 ${71 + (idCounter % 20)} ${200 + (idCounter % 700)} ${10 + (idCounter % 80)} ${10 + (idCounter % 80)}`,
+          workingHours: { weekdays: "24/7", saturday: "24/7", sunday: "24/7", is24_7: i % 2 === 0 },
+          coordinates: {
+            lat: parseFloat((baseCoords.lat + latOffset).toFixed(4)),
+            lng: parseFloat((baseCoords.lng + lngOffset).toFixed(4))
+          },
+          emergency24_7: i % 2 === 0,
+          departments: ["Dori-darmonlar", "Retsept bo'limi", "Vitamintiya"],
+          services: { uz: ["24/7 Yetkazib berish", "Qon bosim o'lchash"], ru: ["Доставка 24/7", "Измерение давления"] },
+          isDemo: true,
+          rating: parseFloat((4.4 + (idCounter % 6) * 0.1).toFixed(1)),
+          imageUrl: "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=600&q=80"
+        });
+      }
+
+      // 4 Clinics per district
+      for (let i = 1; i <= 4; i++) {
+        idCounter++;
+        const latOffset = Math.cos(idCounter * 2) * 0.04;
+        const lngOffset = Math.sin(idCounter * 2) * 0.04;
+
+        list.push({
+          id: `fac-c-${idCounter}`,
+          name: {
+            uz: `${clinicNames[idCounter % clinicNames.length]} (${district})`,
+            ru: `Клиника ${clinicNames[idCounter % clinicNames.length]} (${district})`
+          },
+          type: 'clinic',
+          region,
+          district,
+          address: {
+            uz: `${district}, Navoiy ko'chasi ${i * 16}-uy`,
+            ru: `${district}, ул. Навои ${i * 16}`
+          },
+          phone: `+998 ${71 + (idCounter % 20)} ${300 + (idCounter % 600)} ${10 + (idCounter % 80)} ${10 + (idCounter % 80)}`,
+          workingHours: { weekdays: "08:00 - 20:00", saturday: "09:00 - 16:00", sunday: "Yopiq", is24_7: false },
+          coordinates: {
+            lat: parseFloat((baseCoords.lat + latOffset).toFixed(4)),
+            lng: parseFloat((baseCoords.lng + lngOffset).toFixed(4))
+          },
+          emergency24_7: false,
+          departments: ["Terapevt", "UZI Diagnostika", "Laboratoriya"],
+          services: { uz: ["3D UZI", "Qon tahlillari", "Konsultatsiya"], ru: ["3D УЗИ", "Анализы", "Консультация"] },
+          isDemo: true,
+          rating: parseFloat((4.6 + (idCounter % 4) * 0.1).toFixed(1)),
+          imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80"
+        });
+      }
+    });
+  });
+
+  return list;
+}
+
+export const MOCK_FACILITIES: Facility[] = generateComprehensiveFacilities();
 
 export const MOCK_DOCTORS: Doctor[] = [
   {

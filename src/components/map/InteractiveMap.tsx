@@ -54,6 +54,18 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({ onBookAppointmen
   const [onlyEmergency, setOnlyEmergency] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Fullscreen state
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(prev => !prev);
+    setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    }, 200);
+  };
+
   // Selected facility and routing state
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -335,14 +347,24 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({ onBookAppointmen
             </p>
           </div>
 
-          {/* GPS Location Button */}
-          <button
-            onClick={handleGetLocation}
-            className="inline-flex items-center justify-center space-x-2 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-4 py-3 rounded-2xl shadow transition shrink-0"
-          >
-            <Compass className="w-4 h-4 animate-spin-slow" />
-            <span>Mening joylashuvim (GPS)</span>
-          </button>
+          {/* Control Buttons: GPS & Fullscreen */}
+          <div className="flex items-center space-x-2 shrink-0">
+            <button
+              onClick={handleGetLocation}
+              className="inline-flex items-center justify-center space-x-2 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-4 py-3 rounded-2xl shadow transition"
+            >
+              <Compass className="w-4 h-4 animate-spin-slow" />
+              <span>Mening joylashuvim (GPS)</span>
+            </button>
+
+            <button
+              onClick={toggleFullscreen}
+              className="inline-flex items-center justify-center space-x-2 bg-[#dc2626] hover:bg-red-700 text-white font-bold text-xs px-4 py-3 rounded-2xl shadow transition"
+            >
+              <Route className="w-4 h-4" />
+              <span>{isFullscreen ? "Kichiklashtirish" : "⛶ To'liq Ekran"}</span>
+            </button>
+          </div>
         </div>
 
         {/* Cascading Filter Bar: Region -> District -> Type -> Search */}
@@ -456,12 +478,27 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({ onBookAppointmen
       )}
 
       {/* Main Map + Sidebar Split View */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[620px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 dark:border-neutral-800">
+      <div className={`transition-all duration-300 ${
+        isFullscreen
+          ? 'fixed inset-0 z-50 w-screen h-screen bg-slate-950 p-2 sm:p-4 grid grid-cols-1 lg:grid-cols-4 gap-4 overflow-hidden'
+          : 'grid grid-cols-1 lg:grid-cols-3 gap-6 h-[620px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 dark:border-neutral-800'
+      }`}>
         
         {/* Real Leaflet Map Container */}
-        <div className="lg:col-span-2 relative h-full bg-slate-900">
+        <div className={`${isFullscreen ? 'lg:col-span-3 h-full' : 'lg:col-span-2 h-full'} relative bg-slate-900 rounded-2xl overflow-hidden`}>
           
           <div ref={mapContainerRef} className="w-full h-full z-10" />
+
+          {/* Floating Exit Fullscreen Button */}
+          {isFullscreen && (
+            <button
+              onClick={toggleFullscreen}
+              className="absolute top-4 right-4 z-30 bg-black/80 hover:bg-black backdrop-blur text-white font-bold text-xs px-3.5 py-2.5 rounded-xl border border-slate-700 shadow-2xl flex items-center space-x-1.5"
+            >
+              <X className="w-4 h-4" />
+              <span>Chiqish</span>
+            </button>
+          )}
 
           {/* Active Polyline Route Status Overlay Banner */}
           {isRoutingActive && routeInfo && selectedFacility && (
